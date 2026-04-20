@@ -1,12 +1,14 @@
 import ollama
 from app.config import MODEL_NAME, TEMPERATURE
 
-def generate_response(prompt: str) -> str:
-    response = ollama.generate(
+def generate_response(messages, temperature=None):
+    temp = temperature if temperature is not None else TEMPERATURE
+
+    response = ollama.chat(
         model=MODEL_NAME,
-        prompt=prompt,
+        messages=messages,
         options={
-            "temperature": TEMPERATURE
+            "temperature": temp
         }
     )
-    return response["response"]
+    return response["message"]["content"]

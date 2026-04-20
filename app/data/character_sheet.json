@@ -1,0 +1,39 @@
+{
+  "name": "Aaron Thron",
+  "class": "monk",
+  "level": 1,
+  "hp": {
+    "current": 12,
+    "max": 12
+  },
+  "armor_class": 14,
+  "proficiency_bonus": 2,
+  "abilities": {
+    "strength": 14,
+    "dexterity": 18,
+    "constitution": 12,
+    "intelligence": 14,
+    "wisdom": 16,
+    "charisma": 16
+  },
+  "skills": {
+    "acrobatics": 6,
+    "animal_handling": 2,
+    "arcana": 2,
+    "athletics": 2,
+    "deception": -1,
+    "history": 2,
+    "insight": 2,
+    "intimidation": 3,
+    "investigation": 2,
+    "medicine": 2,
+    "nature": 2,
+    "perception": 4,
+    "performance": 3,
+    "persuasion": 3,
+    "religion": 2,
+    "sleight_of_hand": 4,
+    "stealth": 6,
+    "survival": 4
+  }
+}

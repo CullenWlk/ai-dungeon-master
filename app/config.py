@@ -1,3 +1,7 @@
 MODEL_NAME = "qwen3.5:4b"
 TEMPERATURE = 0.7
-SYSTEM_PROMPT = "You are a helpful fantasy RPG assistant. Respond naturally and clearly."
+
+OPENING_PROMPT = (
+    "Begin the story. Write the opening narration for the scene using the character, "
+    "setting, and story premise provided. Establish the immediate atmosphere and situation."
+)
