@@ -23,7 +23,7 @@ If no roll is required, return JSON only in this format:
 
 {{
   "action_type": "narration",
-  "display_text": "Narration text here."
+  "display_text": "Brief two sentence narration text here."
 }}
 
 Player action:
