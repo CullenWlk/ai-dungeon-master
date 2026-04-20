@@ -22,9 +22,13 @@ If a skill check is required, return JSON only in this format:
 If no roll is required, return JSON only in this format:
 
 {{
-  "action_type": "narration",
-  "display_text": "Brief two sentence narration text here."
+  "action_type": "narration"
 }}
+
+Rules:
+- do not include narration text in the narration response
+- do not wrap JSON in markdown code fences
+- return valid JSON only
 
 Player action:
 "{player_text}"

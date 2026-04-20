@@ -38,7 +38,7 @@ def chat():
     opening_reply = generate_response(
         opening_messages,
         temperature=0.7,
-        num_predict=220
+        num_predict=250
     )
 
     print("\nAI:")
@@ -90,12 +90,32 @@ def chat():
             debug_print(f"[DEBUG] Parsed action result: {result}")
 
             if result["action_type"] == "narration":
+                narration_prompt = (
+                    f"The player attempts this action: {user_input}\n\n"
+                    "Narrate the result naturally as the DM. "
+                    "Keep it moderately detailed, immersive, and grounded in the setting."
+                )
+
+                narration_messages = build_messages(
+                    user_input=narration_prompt,
+                    session_context=state["session_context"],
+                    history=trim_history(state["history"], max_messages=6)
+                )
+
+                debug_print("[DEBUG] Phase: narration follow-up")
+
+                reply = generate_response(
+                    narration_messages,
+                    temperature=0.7,
+                    num_predict=500
+                )
+
                 print("\nAI:")
-                print(result["display_text"])
+                print(reply)
                 print()
 
                 state["history"].append({"role": "user", "content": user_input})
-                state["history"].append({"role": "assistant", "content": result["display_text"]})
+                state["history"].append({"role": "assistant", "content": reply})
 
             elif result["action_type"] == "request_check":
                 print("\nAI:")
@@ -180,7 +200,7 @@ def chat():
                 raw_reply = generate_response(
                     messages,
                     temperature=0.2,
-                    num_predict=250
+                    num_predict=800
                 )
 
                 debug_print("\n[DEBUG RAW MODEL OUTPUT]")
