@@ -38,7 +38,7 @@ def chat():
     opening_reply = generate_response(
         opening_messages,
         temperature=0.7,
-        num_predict=250
+        num_predict=500
     )
 
     print("\nAI:")
@@ -106,7 +106,7 @@ def chat():
 
                 reply = generate_response(
                     narration_messages,
-                    temperature=0.7,
+                    temperature=0.5,
                     num_predict=500
                 )
 
