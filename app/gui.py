@@ -141,28 +141,48 @@ class ChatWindow(QMainWindow):
         skills = sheet.get("skills", {})
         hp = sheet.get("hp", {})
 
-        ability_lines = []
-        for key, value in abilities.items():
-            ability_lines.append(f"{key.capitalize()}: {value}")
+        skill_groups = {
+            "strength": ["athletics"],
+            "dexterity": ["acrobatics", "sleight_of_hand", "stealth"],
+            "constitution": [],
+            "intelligence": ["arcana", "history", "investigation", "nature", "religion"],
+            "wisdom": ["animal_handling", "insight", "medicine", "perception", "survival"],
+            "charisma": ["deception", "intimidation", "performance", "persuasion"],
+        }
 
-        skill_lines = []
-        for key, value in skills.items():
-            skill_lines.append(f"{key.replace('_', ' ').title()}: {value}")
+        lines = []
+
+        lines.append(f"Name: {sheet.get('name', '')}")
+        lines.append(f"Class: {sheet.get('class', '')}")
+        lines.append(f"Level: {sheet.get('level', '')}")
+        lines.append(f"HP: {hp.get('current', '')}/{hp.get('max', '')}")
+        lines.append(f"AC: {sheet.get('armor_class', '')}")
+        lines.append(f"Proficiency Bonus: {sheet.get('proficiency_bonus', '')}")
+        lines.append("")
+
+        lines.append("Abilities and Skills:")
+
+        for ability, grouped_skills in skill_groups.items():
+            ability_name = ability.capitalize()
+            ability_score = abilities.get(ability, "")
+
+            lines.append("")
+            lines.append(f"{ability_name}: {ability_score}")
+
+            for skill in grouped_skills:
+                skill_name = skill.replace("_", " ").title()
+                skill_value = skills.get(skill, "")
+                lines.append(f"    {skill_name}: {skill_value}")
 
         inventory = sheet.get("inventory", [])
-        inventory_lines = "\n".join(f"- {item}" for item in inventory)
 
-        return (
-            f"Name: {sheet.get('name', '')}\n"
-            f"Class: {sheet.get('class', '')}\n"
-            f"Level: {sheet.get('level', '')}\n"
-            f"HP: {hp.get('current', '')}/{hp.get('max', '')}\n"
-            f"AC: {sheet.get('armor_class', '')}\n"
-            f"Proficiency Bonus: {sheet.get('proficiency_bonus', '')}\n\n"
-            f"Abilities:\n" + "\n".join(ability_lines) + "\n\n"
-            f"Skills:\n" + "\n".join(skill_lines) + "\n\n"
-            f"Inventory:\n{inventory_lines}"
-        )
+        lines.append("")
+        lines.append("Inventory:")
+
+        for item in inventory:
+            lines.append(f"    - {item}")
+
+        return "\n".join(lines)
 
 
 if __name__ == "__main__":
