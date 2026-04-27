@@ -16,13 +16,15 @@ If a skill check is required, return JSON only in this format:
   "roll_type": "skill_check",
   "skill": "stealth",
   "dc": 13,
-  "reason": "The player is trying to move quietly past an alert guard."
+  "reason": "The player is trying to move quietly past an alert guard.",
+  "mode": "mode must be one of: "normal", "advantage", or "disadvantage". Use advantage when circumstances strongly favor the player. Use disadvantage when circumstances strongly hinder the player. Otherwise use normal."
 }}
 
 If no roll is required, return JSON only in this format:
 
 {{
-  "action_type": "narration"
+  "action_type": "narration",
+  "location": "2-sentence description of player's current location. If they are in a named location, always include the name of the location, what town or city it is in, along with the description of where the player is within it."
 }}
 
 Rules:

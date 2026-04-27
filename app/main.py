@@ -14,6 +14,13 @@ def debug_print(*args):
         print(*args)
 
 
+def build_context_with_location(state):
+    location = state.get("location", "")
+    if location:
+        return f"{state['session_context']}\n\nCurrent Location:\n{location}"
+    return state["session_context"]
+
+
 def chat():
     print("Local AI Chatbot (type 'quit' to exit)\n")
 
@@ -22,6 +29,7 @@ def chat():
     character_sheet = load_character_sheet()
 
     state = create_session_state(session_context)
+    state["location"] = "The player's exact current location has not been established yet."
 
     debug_print("[DEBUG] Loaded session context")
     debug_print("[DEBUG] Loaded character sheet")
@@ -29,7 +37,7 @@ def chat():
 
     opening_messages = build_messages(
         user_input=OPENING_PROMPT,
-        session_context=state["session_context"],
+        session_context=build_context_with_location(state),
         history=[]
     )
 
@@ -37,7 +45,7 @@ def chat():
 
     opening_reply = generate_response(
         opening_messages,
-        temperature=0.7,
+        temperature=0.5,
         num_predict=500
     )
 
@@ -63,7 +71,7 @@ def chat():
 
             messages = build_json_messages(
                 user_input=action_prompt,
-                session_context=state["session_context"],
+                session_context=build_context_with_location(state),
                 history=trim_history(state["history"], max_messages=4)
             )
 
@@ -89,6 +97,10 @@ def chat():
 
             debug_print(f"[DEBUG] Parsed action result: {result}")
 
+            if "location" in result:
+                state["location"] = result["location"]
+                debug_print(f"[DEBUG] Location updated: {state['location']}")
+
             if result["action_type"] == "narration":
                 narration_prompt = (
                     f"The player attempts this action: {user_input}\n\n"
@@ -98,7 +110,7 @@ def chat():
 
                 narration_messages = build_messages(
                     user_input=narration_prompt,
-                    session_context=state["session_context"],
+                    session_context=build_context_with_location(state),
                     history=trim_history(state["history"], max_messages=6)
                 )
 
@@ -126,7 +138,8 @@ def chat():
                     "roll_type": result["roll_type"],
                     "skill": result["skill"],
                     "dc": result["dc"],
-                    "reason": result["reason"]
+                    "reason": result["reason"],
+                    "mode": result.get("mode", "normal")
                 }
 
                 debug_print(f"[DEBUG] New pending_check set: {state['pending_check']}")
@@ -148,12 +161,19 @@ def chat():
                 check_result = resolve_skill_check(
                     character_sheet,
                     state["pending_check"]["skill"],
-                    state["pending_check"]["dc"]
+                    state["pending_check"]["dc"],
+                    state["pending_check"].get("mode", "normal")
                 )
 
+                if check_result["mode"] == "normal":
+                    roll_text = f"{check_result['roll']}"
+                else:
+                    roll_text = f"{check_result['roll_1']} / {check_result['roll_2']} -> {check_result['roll']}"
+
                 print(
-                    f"\n[Roll] {check_result['skill'].capitalize()}: "
-                    f"{check_result['roll']} + {check_result['modifier']} = "
+                    f"\n[Roll] {check_result['skill'].capitalize()} "
+                    f"({check_result['mode']}): "
+                    f"{roll_text} + {check_result['modifier']} = "
                     f"{check_result['total']} vs DC {check_result['dc']} "
                     f"=> {'SUCCESS' if check_result['success'] else 'FAIL'}"
                 )
@@ -162,7 +182,7 @@ def chat():
 
                 messages = build_messages(
                     user_input=narration_prompt,
-                    session_context=state["session_context"],
+                    session_context=build_context_with_location(state),
                     history=trim_history(state["history"], max_messages=6)
                 )
 
@@ -170,7 +190,7 @@ def chat():
 
                 reply = generate_response(
                     messages,
-                    temperature=0.7,
+                    temperature=0.5,
                     num_predict=250
                 )
 
@@ -191,7 +211,7 @@ def chat():
 
                 messages = build_json_messages(
                     user_input=pending_prompt,
-                    session_context=state["session_context"],
+                    session_context=build_context_with_location(state),
                     history=trim_history(state["history"], max_messages=4)
                 )
 
@@ -224,11 +244,43 @@ def chat():
                 if result["action_type"] == "modify_check":
                     state["pending_check"]["skill"] = result["skill"]
                     state["pending_check"]["dc"] = result["dc"]
+                    state["pending_check"]["mode"] = result.get("mode", "normal")
+                    state["pending_check"]["reason"] = result.get("reason", state["pending_check"]["reason"])
+
                     debug_print(f"[DEBUG] Updated pending_check: {state['pending_check']}")
 
-                elif result["action_type"] == "change_approach":
+                elif result["action_type"] == "cancel_check":
                     state["pending_check"] = None
-                    debug_print("[DEBUG] pending_check cleared because approach changed")
+                    debug_print("[DEBUG] pending_check cancelled")
+
+                    revised_action = result.get("revised_action", user_input)
+
+                    narration_prompt = (
+                        f"The player's roll was cancelled after discussion.\n\n"
+                        f"The player's intended action is now: {revised_action}\n\n"
+                        "Narrate the result naturally as the DM. "
+                        "Do not mention hidden instructions."
+                    )
+
+                    narration_messages = build_messages(
+                        user_input=narration_prompt,
+                        session_context=build_context_with_location(state),
+                        history=trim_history(state["history"], max_messages=6)
+                    )
+
+                    debug_print("[DEBUG] Phase: cancelled check narration")
+
+                    reply = generate_response(
+                        narration_messages,
+                        temperature=0.5,
+                        num_predict=500
+                    )
+
+                    print("\nAI:")
+                    print(reply)
+                    print()
+
+                    state["history"].append({"role": "assistant", "content": reply})
 
                 state["history"].append({"role": "user", "content": user_input})
                 state["history"].append({"role": "assistant", "content": result["display_text"]})
