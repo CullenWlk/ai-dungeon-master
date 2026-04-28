@@ -1,12 +1,12 @@
 {
   "name": "Rico Santiago",
-  "class": "paladin",
+  "class": "fighter",
   "level": 5,
   "hp": {
     "current": 47,
     "max": 47
   },
-  "armor_class": 18,
+  "armor_class": 16,
   "proficiency_bonus": 3,
   "abilities": {
     "strength": 20,

@@ -22,7 +22,7 @@ def build_context_with_location(state):
 
 
 def chat():
-    print("Local AI Chatbot (type 'quit' to exit)\n")
+    print("Your AI DM (type 'quit' to exit)\n")
 
     session_data = load_session_context()
     session_context = format_session_context(session_data)
@@ -49,7 +49,6 @@ def chat():
         num_predict=500
     )
 
-    print("\nAI:")
     print(opening_reply)
     print()
 
@@ -122,7 +121,6 @@ def chat():
                     num_predict=500
                 )
 
-                print("\nAI:")
                 print(reply)
                 print()
 
@@ -130,7 +128,6 @@ def chat():
                 state["history"].append({"role": "assistant", "content": reply})
 
             elif result["action_type"] == "request_check":
-                print("\nAI:")
                 print(result["display_text"])
                 print()
 
@@ -194,7 +191,6 @@ def chat():
                     num_predict=250
                 )
 
-                print("\nAI:")
                 print(reply)
                 print()
 
@@ -237,7 +233,7 @@ def chat():
 
                 debug_print(f"[DEBUG] Parsed pending result: {result}")
 
-                print("\nAI:")
+                print("\nDM:")
                 print(result["display_text"])
                 print()
 
@@ -276,7 +272,6 @@ def chat():
                         num_predict=500
                     )
 
-                    print("\nAI:")
                     print(reply)
                     print()
 

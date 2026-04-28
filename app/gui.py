@@ -1,11 +1,11 @@
 import sys
 import json
-import subprocess
 import re
 from pathlib import Path
-from PySide6.QtGui import QTextCursor
 
+from PySide6.QtGui import QTextCursor, QPixmap
 from PySide6.QtCore import QProcess, Qt
+from PySide6.QtGui import QFontDatabase
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -15,9 +15,20 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QHBoxLayout,
-    QLabel,
 )
+
 from app.character import sheet
+
+
+def make_scaled_ui_image(source_path, output_path, scale):
+    pixmap = QPixmap(str(source_path))
+    scaled = pixmap.scaled(
+        pixmap.width() * scale,
+        pixmap.height() * scale,
+        Qt.AspectRatioMode.IgnoreAspectRatio,
+        Qt.TransformationMode.FastTransformation
+    )
+    scaled.save(str(output_path))
 
 
 class ChatWindow(QMainWindow):
@@ -25,41 +36,171 @@ class ChatWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("AI Dungeon Master")
-        self.resize(900, 700)
+        self.resize(1100, 800)
+        self.setMinimumSize(900, 700)
 
         self.output = QTextEdit()
         self.output.setReadOnly(True)
 
         self.sheet_view = QTextEdit()
         self.sheet_view.setReadOnly(True)
-        self.sheet_view.setMaximumWidth(320)
+
+        font_id = QFontDatabase.addApplicationFont("app/assets/fonts/alagard.ttf")
+        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+        font_size = 15
+
+        button_backer_source = Path("app/assets/UI_TravelBook_Bar02a.png")
+        button_backer_scaled = Path("app/assets/UI_TravelBook_Bar02a_scaled.png")
+
+        if not button_backer_scaled.exists():
+            make_scaled_ui_image(button_backer_source, button_backer_scaled, 4)
+
+        text_backer_slice = 20
+        button_backer_slice = 10
+
+        self.output.setStyleSheet(f"""
+        QTextEdit {{
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+            border: none;
+        }}
+        """)
+
+        self.sheet_view.setStyleSheet(f"""
+        QTextEdit {{
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+            border: none;
+        }}
+        """)
 
         sheet = self.load_character_sheet()
         self.sheet_view.setPlainText(self.format_character_sheet(sheet))
 
         self.input_line = QLineEdit()
         self.input_line.setPlaceholderText("Type your action here...")
+        self.input_line.setStyleSheet(f"""
+        QLineEdit {{
+            border-style: solid;
+            border-width: {text_backer_slice}px;
+            border-image: url("app/assets/UI_TravelBook_Frame04a_scaled.png") {text_backer_slice} {text_backer_slice} {text_backer_slice} {text_backer_slice} stretch stretch;
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+            border: none;
+            padding: 6px;
+        }}
+        """)
 
         self.send_button = QPushButton("Send")
+        self.send_button.setStyleSheet(f"""
+        QPushButton {{
+            border-style: solid;
+            border-width: {button_backer_slice}px;
+            border-image: url("app/assets/UI_TravelBook_Frame04a_scaled.png") {button_backer_slice} {button_backer_slice} {button_backer_slice} {button_backer_slice} stretch stretch;
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+            font-weight: bold;
+            padding: 1px;
+        }}
+        """)
 
         self.roll_button = QPushButton("Roll")
+        self.roll_button.setStyleSheet(f"""
+        QPushButton {{
+            border-style: solid;
+            border-width: {button_backer_slice}px;
+            border-image: url("app/assets/UI_TravelBook_Frame04a_scaled.png") {button_backer_slice} {button_backer_slice} {button_backer_slice} {button_backer_slice} stretch stretch;
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+            font-weight: bold;
+            padding: 1px;
+        }}
+        QPushButton:hover {{
+            background-color: rgba(250, 230, 190, 210);
+        }}
+        QPushButton:pressed {{
+            background-color: rgba(210, 185, 145, 220);
+        }}
+        """)
         self.roll_button.setVisible(False)
 
         bottom_row = QHBoxLayout()
+        bottom_row.setSpacing(8)
+        bottom_row.setContentsMargins(0, 0, 0, 0)
         bottom_row.addWidget(self.input_line)
         bottom_row.addWidget(self.send_button)
         bottom_row.addWidget(self.roll_button)
 
-        middle_row = QHBoxLayout()
-        middle_row.addWidget(self.output, 3)
-        middle_row.addWidget(self.sheet_view, 1)
+        left_page = QWidget()
+        left_page.setObjectName("leftPage")
+        left_page.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
+
+        right_page = QWidget()
+        right_page.setObjectName("rightPage")
+        right_page.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
+
+        left_page_layout = QVBoxLayout(left_page)
+        left_page_layout.setContentsMargins(55, 35, 45, 85)
+        left_page_layout.setSpacing(10)
+        left_page_layout.addWidget(self.output, 1)
+        left_page_layout.addLayout(bottom_row)
+
+        right_page_layout = QVBoxLayout(right_page)
+        right_page_layout.setContentsMargins(45, 35, 55, 85)
+        right_page_layout.setSpacing(10)
+        right_page_layout.addWidget(self.sheet_view)
+
+        page_row = QHBoxLayout()
+        page_row.setSpacing(0)
+        page_row.setContentsMargins(0, 0, 0, 0)
+        page_row.addWidget(left_page)
+        page_row.addWidget(right_page)
+
+        pages_widget = QWidget()
+        pages_widget.setLayout(page_row)
 
         layout = QVBoxLayout()
-        layout.addLayout(middle_row)
-        layout.addLayout(bottom_row)
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setSpacing(0)
+        layout.addWidget(pages_widget)
 
         container = QWidget()
+        container.setObjectName("mainContainer")
+        container.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         container.setLayout(layout)
+
+        cover_slice = 220
+        page_slice = 220
+
+        container.setStyleSheet(f"""
+        #mainContainer {{
+            border-style: solid;
+            border-width: {cover_slice}px;
+            border-image: url("app/assets/UI_TravelBook_BookCover01a_scaled.png") {cover_slice} {cover_slice} {cover_slice} {cover_slice} stretch stretch;
+        }}
+        """)
+
+        left_page.setStyleSheet(f"""
+        #leftPage {{
+            border-style: solid;
+            border-width: {page_slice}px;
+            border-image: url("app/assets/UI_TravelBook_BookPageLeft01a_scaled.png") {page_slice} 180 350 {page_slice} stretch stretch;
+        }}
+        """)
+
+        right_page.setStyleSheet(f"""
+        #rightPage {{
+            border-style: solid;
+            border-width: {page_slice}px;
+            border-image: url("app/assets/UI_TravelBook_BookPageRight01a_scaled.png") {page_slice} {page_slice} 350 195 stretch stretch;
+        }}
+        """)
+
         self.setCentralWidget(container)
 
         self.process = QProcess(self)
@@ -105,7 +246,7 @@ class ChatWindow(QMainWindow):
 
         text = re.sub(
             r'"(.*?)"',
-            r'<span style="color: #4aa3ff;">"\1"</span>',
+            r'<span style="color: #c33b3e;">"\1"</span>',
             text
         )
 
@@ -130,12 +271,12 @@ class ChatWindow(QMainWindow):
         self.append_text("I roll\n")
         self.process.write(("I roll\n").encode("utf-8"))
         self.roll_button.setVisible(False)
-    
+
     def load_character_sheet(self):
         path = Path("app/data/character_sheet.json")
         with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
-    
+
     def format_character_sheet(self, sheet):
         abilities = sheet.get("abilities", {})
         skills = sheet.get("skills", {})
@@ -159,7 +300,6 @@ class ChatWindow(QMainWindow):
         lines.append(f"AC: {sheet.get('armor_class', '')}")
         lines.append(f"Proficiency Bonus: {sheet.get('proficiency_bonus', '')}")
         lines.append("")
-
         lines.append("Abilities and Skills:")
 
         for ability, grouped_skills in skill_groups.items():
