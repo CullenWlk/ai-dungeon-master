@@ -121,6 +121,7 @@ def chat():
                     num_predict=500
                 )
 
+                print("\n")
                 print(reply)
                 print()
 
@@ -191,6 +192,7 @@ def chat():
                     num_predict=250
                 )
 
+                print("\n")
                 print(reply)
                 print()
 

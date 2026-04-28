@@ -59,13 +59,39 @@ class ChatWindow(QMainWindow):
         button_backer_slice = 10
 
         self.output.setStyleSheet(f"""
-        QTextEdit {{
-            font-family: "{font_family}";
-            font-size: {font_size}px;
-            color: black;
-            border: none;
-        }}
-        """)
+		QTextEdit {{
+			font-family: "{font_family}";
+			font-size: {font_size}px;
+			color: black;
+			border: none;
+		}}
+
+		QScrollBar:vertical {{
+			background: transparent;
+			width: 5px;
+			margin: 0px;
+		}}
+
+		QScrollBar::handle:vertical {{
+			background: rgb(229, 182, 127);
+			min-height: 20px;
+			border-radius: 2px;
+		}}
+
+		QScrollBar::handle:vertical:hover {{
+			background: rgb(200, 160, 110);
+		}}
+
+		QScrollBar::add-line:vertical,
+		QScrollBar::sub-line:vertical {{
+			height: 0px;
+		}}
+
+		QScrollBar::add-page:vertical,
+		QScrollBar::sub-page:vertical {{
+			background: transparent;
+		}}
+		""")
 
         self.sheet_view.setStyleSheet(f"""
         QTextEdit {{
@@ -74,6 +100,32 @@ class ChatWindow(QMainWindow):
             color: black;
             border: none;
         }}
+
+        QScrollBar:vertical {{
+			background: transparent;
+			width: 5px;
+			margin: 0px;
+		}}
+
+		QScrollBar::handle:vertical {{
+			background: rgb(229, 182, 127);
+			min-height: 20px;
+			border-radius: 2px;
+		}}
+
+		QScrollBar::handle:vertical:hover {{
+			background: rgb(200, 160, 110);
+		}}
+
+		QScrollBar::add-line:vertical,
+		QScrollBar::sub-line:vertical {{
+			height: 0px;
+		}}
+
+		QScrollBar::add-page:vertical,
+		QScrollBar::sub-page:vertical {{
+			background: transparent;
+		}}
         """)
 
         sheet = self.load_character_sheet()
