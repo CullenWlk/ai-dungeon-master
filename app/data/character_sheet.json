@@ -12,28 +12,31 @@
     "strength": 20,
     "dexterity": 14,
     "constitution": 14,
-    "intelligence": 10,
+    "intelligence": 8,
     "wisdom": 14,
     "charisma": 16
   },
   "skills": {
     "acrobatics": 5,
     "animal_handling": 2,
-    "arcana": 3,
+    "arcana": -1,
     "athletics": 8,
     "deception": 6,
-    "history": 3,
+    "history": -1,
     "insight": 5,
     "intimidation": 6,
-    "investigation": 3,
+    "investigation": 2,
     "medicine": 2,
-    "nature": 3,
+    "nature": -1,
     "perception": 5,
     "performance": 3,
     "persuasion": 6,
-    "religion": 3,
+    "religion": -1,
     "sleight_of_hand": 5,
-    "stealth": 5,
+    "stealth": 2,
     "survival": 5
+  },
+  "inventory": {
+    
   }
 }

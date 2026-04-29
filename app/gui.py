@@ -48,13 +48,13 @@ class ChatWindow(QMainWindow):
         font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
         font_size = 15
 
-        button_backer_source = Path("app/assets/UI_TravelBook_Bar02a.png")
-        button_backer_scaled = Path("app/assets/UI_TravelBook_Bar02a_scaled.png")
+        fancy_frame_source = Path("app/assets/UI_TravelBook_Slot04a.png")
+        fancy_frame_scaled = Path("app/assets/UI_TravelBook_Slot04a_scaled.png")
 
-        if not button_backer_scaled.exists():
-            make_scaled_ui_image(button_backer_source, button_backer_scaled, 4)
+        if not fancy_frame_scaled.exists():
+            make_scaled_ui_image(fancy_frame_source, fancy_frame_scaled, 4)
 
-        text_backer_slice = 20
+        text_backer_slice = 7
         button_backer_slice = 10
 
         self.output = QTextEdit()
@@ -252,15 +252,18 @@ class ChatWindow(QMainWindow):
 
     def make_basic_stat_box(self, label_text, value, font_family, font_size):
         box = QFrame()
-        box.setStyleSheet("""
-        QFrame {
+        text_backer_slice = 10
+        box.setStyleSheet(f"""
+        QFrame {{
             background: transparent;
-            border: 1px solid rgb(120, 80, 40);
-        }
-        QLabel {
+            border-style: solid;
+            border-width: {text_backer_slice}px;
+            border-image: url("app/assets/UI_TravelBook_Frame04a_scaled.png") {text_backer_slice} {text_backer_slice} {text_backer_slice} {text_backer_slice} stretch stretch;
+        }}
+        QLabel {{
             color: black;
             border: none;
-        }
+        }}
         """)
 
         layout = QVBoxLayout(box)
@@ -287,15 +290,18 @@ class ChatWindow(QMainWindow):
     def make_skill_box(self, ability_name, ability_value, skill_list, font_family, font_size):
         box = QFrame()
         box.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        box.setStyleSheet("""
-        QFrame {
+        fancy_frame_slice = 20
+        box.setStyleSheet(f"""
+        QFrame {{
             background: transparent;
-            border: 1px solid rgb(120, 80, 40);
-        }
-        QLabel {
+            border-style: solid;
+            border-width: {fancy_frame_slice}px;
+            border-image: url("app/assets/UI_TravelBook_Slot04a_scaled.png") {fancy_frame_slice} {fancy_frame_slice} {fancy_frame_slice} {fancy_frame_slice} stretch stretch;
+        }}
+        QLabel {{
             color: black;
             border: none;
-        }
+        }}
         """)
 
         layout = QVBoxLayout(box)
@@ -361,7 +367,7 @@ class ChatWindow(QMainWindow):
         QScrollBar:vertical {
             background: transparent;
             width: 5px;
-            margin: 0px;
+            margin: 0px 0px 0px 5px;
         }
 
         QScrollBar::handle:vertical {
@@ -394,12 +400,16 @@ class ChatWindow(QMainWindow):
 
         name = QLabel(sheet.get("name", ""))
         name.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        fancy_frame_slice = 20
         name.setStyleSheet(f"""
         QLabel {{
             font-family: "{font_family}";
             font-size: {font_size + 8}px;
             font-weight: bold;
             color: black;
+            border-style: solid;
+            border-width: {fancy_frame_slice}px;
+            border-image: url("app/assets/UI_TravelBook_Slot04a_scaled.png") {fancy_frame_slice} {fancy_frame_slice} {fancy_frame_slice} {fancy_frame_slice} stretch stretch;
         }}
         """)
         layout.addWidget(name)
@@ -484,6 +494,9 @@ class ChatWindow(QMainWindow):
             font-size: {font_size + 2}px;
             font-weight: bold;
             color: black;
+            border-style: solid;
+            border-width: {fancy_frame_slice}px;
+            border-image: url("app/assets/UI_TravelBook_Slot04a_scaled.png") {fancy_frame_slice} {fancy_frame_slice} {fancy_frame_slice} {fancy_frame_slice} stretch stretch;
         }}
         """)
         layout.addWidget(inventory_title)
@@ -491,13 +504,16 @@ class ChatWindow(QMainWindow):
         inventory_box = QTextEdit()
         inventory_box.setPlainText("\n".join(sheet.get("inventory", [])))
         inventory_box.setMaximumHeight(90)
+        text_backer_slice = 7
         inventory_box.setStyleSheet(f"""
         QTextEdit {{
             font-family: "{font_family}";
             font-size: {font_size}px;
             color: black;
             background: transparent;
-            border: 1px solid rgb(120, 80, 40);
+            border-style: solid;
+            border-width: {text_backer_slice}px;
+            border-image: url("app/assets/UI_TravelBook_Frame04a_scaled.png") {text_backer_slice} {text_backer_slice} {text_backer_slice} {text_backer_slice} stretch stretch;
         }}
 
         QScrollBar:vertical {{
