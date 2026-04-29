@@ -129,6 +129,7 @@ def chat():
                 state["history"].append({"role": "assistant", "content": reply})
 
             elif result["action_type"] == "request_check":
+                print("\n")
                 print(result["display_text"])
                 print()
 

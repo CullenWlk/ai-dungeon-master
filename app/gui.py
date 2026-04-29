@@ -15,6 +15,11 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QHBoxLayout,
+    QLabel,
+    QFrame,
+    QGridLayout,
+    QScrollArea,
+    QSizePolicy,
 )
 
 from app.character import sheet
@@ -36,14 +41,8 @@ class ChatWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("AI Dungeon Master")
-        self.resize(1100, 800)
-        self.setMinimumSize(900, 700)
-
-        self.output = QTextEdit()
-        self.output.setReadOnly(True)
-
-        self.sheet_view = QTextEdit()
-        self.sheet_view.setReadOnly(True)
+        self.resize(1400, 800)
+        self.setMinimumSize(1400, 800)
 
         font_id = QFontDatabase.addApplicationFont("app/assets/fonts/alagard.ttf")
         font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
@@ -58,42 +57,9 @@ class ChatWindow(QMainWindow):
         text_backer_slice = 20
         button_backer_slice = 10
 
+        self.output = QTextEdit()
+        self.output.setReadOnly(True)
         self.output.setStyleSheet(f"""
-		QTextEdit {{
-			font-family: "{font_family}";
-			font-size: {font_size}px;
-			color: black;
-			border: none;
-		}}
-
-		QScrollBar:vertical {{
-			background: transparent;
-			width: 5px;
-			margin: 0px;
-		}}
-
-		QScrollBar::handle:vertical {{
-			background: rgb(229, 182, 127);
-			min-height: 20px;
-			border-radius: 2px;
-		}}
-
-		QScrollBar::handle:vertical:hover {{
-			background: rgb(200, 160, 110);
-		}}
-
-		QScrollBar::add-line:vertical,
-		QScrollBar::sub-line:vertical {{
-			height: 0px;
-		}}
-
-		QScrollBar::add-page:vertical,
-		QScrollBar::sub-page:vertical {{
-			background: transparent;
-		}}
-		""")
-
-        self.sheet_view.setStyleSheet(f"""
         QTextEdit {{
             font-family: "{font_family}";
             font-size: {font_size}px;
@@ -102,34 +68,34 @@ class ChatWindow(QMainWindow):
         }}
 
         QScrollBar:vertical {{
-			background: transparent;
-			width: 5px;
-			margin: 0px;
-		}}
+            background: transparent;
+            width: 5px;
+            margin: 0px;
+        }}
 
-		QScrollBar::handle:vertical {{
-			background: rgb(229, 182, 127);
-			min-height: 20px;
-			border-radius: 2px;
-		}}
+        QScrollBar::handle:vertical {{
+            background: rgb(229, 182, 127);
+            min-height: 20px;
+            border-radius: 2px;
+        }}
 
-		QScrollBar::handle:vertical:hover {{
-			background: rgb(200, 160, 110);
-		}}
+        QScrollBar::handle:vertical:hover {{
+            background: rgb(200, 160, 110);
+        }}
 
-		QScrollBar::add-line:vertical,
-		QScrollBar::sub-line:vertical {{
-			height: 0px;
-		}}
+        QScrollBar::add-line:vertical,
+        QScrollBar::sub-line:vertical {{
+            height: 0px;
+        }}
 
-		QScrollBar::add-page:vertical,
-		QScrollBar::sub-page:vertical {{
-			background: transparent;
-		}}
+        QScrollBar::add-page:vertical,
+        QScrollBar::sub-page:vertical {{
+            background: transparent;
+        }}
         """)
 
-        sheet = self.load_character_sheet()
-        self.sheet_view.setPlainText(self.format_character_sheet(sheet))
+        character_sheet = self.load_character_sheet()
+        self.character_panel = self.build_character_panel(character_sheet, font_family, font_size)
 
         self.input_line = QLineEdit()
         self.input_line.setPlaceholderText("Type your action here...")
@@ -141,7 +107,6 @@ class ChatWindow(QMainWindow):
             font-family: "{font_family}";
             font-size: {font_size}px;
             color: black;
-            border: none;
             padding: 6px;
         }}
         """)
@@ -205,7 +170,7 @@ class ChatWindow(QMainWindow):
         right_page_layout = QVBoxLayout(right_page)
         right_page_layout.setContentsMargins(45, 35, 55, 85)
         right_page_layout.setSpacing(10)
-        right_page_layout.addWidget(self.sheet_view)
+        right_page_layout.addWidget(self.character_panel)
 
         page_row = QHBoxLayout()
         page_row.setSpacing(0)
@@ -270,6 +235,297 @@ class ChatWindow(QMainWindow):
         self.roll_button.clicked.connect(self.send_roll)
 
         self.process.start()
+
+    def make_value_field(self, value, font_family, font_size):
+        field = QLineEdit(str(value))
+        field.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        field.setStyleSheet(f"""
+        QLineEdit {{
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+            background: transparent;
+            border: none;
+        }}
+        """)
+        return field
+
+    def make_basic_stat_box(self, label_text, value, font_family, font_size):
+        box = QFrame()
+        box.setStyleSheet("""
+        QFrame {
+            background: transparent;
+            border: 1px solid rgb(120, 80, 40);
+        }
+        QLabel {
+            color: black;
+            border: none;
+        }
+        """)
+
+        layout = QVBoxLayout(box)
+        layout.setContentsMargins(4, 4, 4, 4)
+        layout.setSpacing(2)
+
+        label = QLabel(label_text)
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        label.setStyleSheet(f"""
+        QLabel {{
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            font-weight: bold;
+        }}
+        """)
+
+        field = self.make_value_field(value, font_family, font_size)
+
+        layout.addWidget(label)
+        layout.addWidget(field)
+
+        return box
+
+    def make_skill_box(self, ability_name, ability_value, skill_list, font_family, font_size):
+        box = QFrame()
+        box.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        box.setStyleSheet("""
+        QFrame {
+            background: transparent;
+            border: 1px solid rgb(120, 80, 40);
+        }
+        QLabel {
+            color: black;
+            border: none;
+        }
+        """)
+
+        layout = QVBoxLayout(box)
+        layout.setContentsMargins(6, 4, 6, 4)
+        layout.setSpacing(2)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        top_row = QHBoxLayout()
+
+        ability_label = QLabel(ability_name)
+        ability_label.setStyleSheet(f"""
+        QLabel {{
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            font-weight: bold;
+        }}
+        """)
+
+        ability_field = self.make_value_field(ability_value, font_family, font_size)
+        ability_field.setMaximumWidth(45)
+
+        top_row.addWidget(ability_label)
+        top_row.addStretch()
+        top_row.addWidget(ability_field)
+
+        layout.addLayout(top_row)
+
+        for skill_name, skill_value in skill_list:
+            row = QHBoxLayout()
+
+            skill_label = QLabel(skill_name)
+            skill_label.setStyleSheet(f"""
+            QLabel {{
+                font-family: "{font_family}";
+                font-size: {font_size - 1}px;
+            }}
+            """)
+
+            skill_field = self.make_value_field(skill_value, font_family, font_size - 1)
+            skill_field.setMaximumWidth(40)
+
+            row.addWidget(skill_label)
+            row.addStretch()
+            row.addWidget(skill_field)
+
+            layout.addLayout(row)
+
+        return box
+
+    def build_character_panel(self, sheet, font_family, font_size):
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setStyleSheet("""
+        QScrollArea {
+            background: transparent;
+            border: none;
+        }
+
+        QScrollArea > QWidget > QWidget {
+            background: transparent;
+        }
+
+        QScrollBar:vertical {
+            background: transparent;
+            width: 5px;
+            margin: 0px;
+        }
+
+        QScrollBar::handle:vertical {
+            background: rgb(229, 182, 127);
+            min-height: 20px;
+            border-radius: 2px;
+        }
+
+        QScrollBar::handle:vertical:hover {
+            background: rgb(200, 160, 110);
+        }
+
+        QScrollBar::add-line:vertical,
+        QScrollBar::sub-line:vertical {
+            height: 0px;
+        }
+
+        QScrollBar::add-page:vertical,
+        QScrollBar::sub-page:vertical {
+            background: transparent;
+        }
+        """)
+
+        panel = QWidget()
+        panel.setStyleSheet("background: transparent;")
+
+        layout = QVBoxLayout(panel)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(8)
+
+        name = QLabel(sheet.get("name", ""))
+        name.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        name.setStyleSheet(f"""
+        QLabel {{
+            font-family: "{font_family}";
+            font-size: {font_size + 8}px;
+            font-weight: bold;
+            color: black;
+        }}
+        """)
+        layout.addWidget(name)
+
+        hp = sheet.get("hp", {})
+
+        basic_grid = QGridLayout()
+        basic_grid.setSpacing(6)
+
+        basic_stats = [
+            ("Class", sheet.get("class", "")),
+            ("Level", sheet.get("level", "")),
+            ("HP", f"{hp.get('current', '')}/{hp.get('max', '')}"),
+            ("AC", sheet.get("armor_class", "")),
+            ("Prof", sheet.get("proficiency_bonus", "")),
+        ]
+
+        for index, (label, value) in enumerate(basic_stats):
+            basic_grid.addWidget(
+                self.make_basic_stat_box(label, value, font_family, font_size),
+                0,
+                index
+            )
+
+        layout.addLayout(basic_grid)
+
+        abilities = sheet.get("abilities", {})
+        skills = sheet.get("skills", {})
+
+        skill_groups = [
+            ("Strength", abilities.get("strength", ""), [
+                ("Athletics", skills.get("athletics", "")),
+            ]),
+            ("Dexterity", abilities.get("dexterity", ""), [
+                ("Acrobatics", skills.get("acrobatics", "")),
+                ("Sleight Of Hand", skills.get("sleight_of_hand", "")),
+                ("Stealth", skills.get("stealth", "")),
+            ]),
+            ("Constitution", abilities.get("constitution", ""), []),
+            ("Intelligence", abilities.get("intelligence", ""), [
+                ("Arcana", skills.get("arcana", "")),
+                ("History", skills.get("history", "")),
+                ("Investigation", skills.get("investigation", "")),
+                ("Nature", skills.get("nature", "")),
+                ("Religion", skills.get("religion", "")),
+            ]),
+            ("Wisdom", abilities.get("wisdom", ""), [
+                ("Animal Handling", skills.get("animal_handling", "")),
+                ("Insight", skills.get("insight", "")),
+                ("Medicine", skills.get("medicine", "")),
+                ("Perception", skills.get("perception", "")),
+                ("Survival", skills.get("survival", "")),
+            ]),
+            ("Charisma", abilities.get("charisma", ""), [
+                ("Deception", skills.get("deception", "")),
+                ("Intimidation", skills.get("intimidation", "")),
+                ("Performance", skills.get("performance", "")),
+                ("Persuasion", skills.get("persuasion", "")),
+            ]),
+        ]
+
+        skill_grid = QGridLayout()
+        skill_grid.setSpacing(6)
+        skill_grid.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        for index, group in enumerate(skill_groups):
+            row = index // 2
+            col = index % 2
+            skill_grid.addWidget(
+                self.make_skill_box(*group, font_family, font_size),
+                row,
+                col
+            )
+
+        layout.addLayout(skill_grid)
+
+        inventory_title = QLabel("Inventory")
+        inventory_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        inventory_title.setStyleSheet(f"""
+        QLabel {{
+            font-family: "{font_family}";
+            font-size: {font_size + 2}px;
+            font-weight: bold;
+            color: black;
+        }}
+        """)
+        layout.addWidget(inventory_title)
+
+        inventory_box = QTextEdit()
+        inventory_box.setPlainText("\n".join(sheet.get("inventory", [])))
+        inventory_box.setMaximumHeight(90)
+        inventory_box.setStyleSheet(f"""
+        QTextEdit {{
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+            background: transparent;
+            border: 1px solid rgb(120, 80, 40);
+        }}
+
+        QScrollBar:vertical {{
+            background: transparent;
+            width: 5px;
+            margin: 0px;
+        }}
+
+        QScrollBar::handle:vertical {{
+            background: rgb(229, 182, 127);
+            min-height: 20px;
+            border-radius: 2px;
+        }}
+
+        QScrollBar::add-line:vertical,
+        QScrollBar::sub-line:vertical {{
+            height: 0px;
+        }}
+
+        QScrollBar::add-page:vertical,
+        QScrollBar::sub-page:vertical {{
+            background: transparent;
+        }}
+        """)
+        layout.addWidget(inventory_box)
+
+        scroll.setWidget(panel)
+        return scroll
 
     def on_started(self):
         self.append_text("[System] Chat process started.\n")

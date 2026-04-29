@@ -1,4 +1,4 @@
-MODEL_NAME = "qwen3.5:4b"
+MODEL_NAME = "qwen3.5:9b"
 TEMPERATURE = 0.7
 
 OPENING_PROMPT = (
