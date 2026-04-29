@@ -8,10 +8,18 @@ from app.adjudication.action_phase import build_action_prompt, parse_action_resp
 from app.adjudication.pending_phase import build_pending_prompt, parse_pending_response, is_roll_command
 from app.mechanics.checks import resolve_skill_check
 
+try:
+    from app.config import RAG_ENABLED
+    from app.rag.retriever import retrieve_lore, format_lore_context
+except ImportError:
+    RAG_ENABLED = False
+    retrieve_lore = None
+    format_lore_context = None
+
 
 def debug_print(*args):
     if DEBUG_MODE:
-        print(*args)
+        print(*args, flush=True)
 
 
 def build_context_with_location(state):
@@ -21,8 +29,31 @@ def build_context_with_location(state):
     return state["session_context"]
 
 
+def build_context_with_location_and_lore(state, user_input=None):
+    context = build_context_with_location(state)
+
+    if not RAG_ENABLED or not user_input or retrieve_lore is None:
+        return context
+
+    query = f"{state.get('location', '')}\n{user_input}"
+
+    try:
+        lore_entries = retrieve_lore(query)
+        lore_context = format_lore_context(lore_entries)
+
+        if lore_context:
+            context += f"\n\nRelevant Lore:\n{lore_context}"
+            debug_print("[DEBUG] RAG lore added to context")
+
+    except Exception as e:
+        debug_print("[DEBUG] RAG retrieval failed")
+        debug_print(f"[DEBUG] Error: {e}")
+
+    return context
+
+
 def chat():
-    print("Your AI DM (type 'quit' to exit)\n")
+    print("Your AI DM (type 'quit' to exit)\n", flush=True)
 
     session_data = load_session_context()
     session_context = format_session_context(session_data)
@@ -49,8 +80,8 @@ def chat():
         num_predict=500
     )
 
-    print(opening_reply)
-    print()
+    print(opening_reply, flush=True)
+    print(flush=True)
 
     state["history"].append({"role": "user", "content": OPENING_PROMPT})
     state["history"].append({"role": "assistant", "content": opening_reply})
@@ -91,7 +122,7 @@ def chat():
             except Exception as e:
                 debug_print("[DEBUG] Failed to parse action adjudication JSON")
                 debug_print(f"[DEBUG] Error: {e}")
-                print("\n[System] The AI response could not be parsed. Please try that action again.")
+                print("\n[System] The AI response could not be parsed. Please try that action again.", flush=True)
                 continue
 
             debug_print(f"[DEBUG] Parsed action result: {result}")
@@ -109,7 +140,7 @@ def chat():
 
                 narration_messages = build_messages(
                     user_input=narration_prompt,
-                    session_context=build_context_with_location(state),
+                    session_context=build_context_with_location_and_lore(state, user_input),
                     history=trim_history(state["history"], max_messages=6)
                 )
 
@@ -121,17 +152,17 @@ def chat():
                     num_predict=500
                 )
 
-                print("\n")
-                print(reply)
-                print()
+                print("\n", flush=True)
+                print(reply, flush=True)
+                print(flush=True)
 
                 state["history"].append({"role": "user", "content": user_input})
                 state["history"].append({"role": "assistant", "content": reply})
 
             elif result["action_type"] == "request_check":
-                print("\n")
-                print(result["display_text"])
-                print()
+                print("\n", flush=True)
+                print(result["display_text"], flush=True)
+                print(flush=True)
 
                 state["pending_check"] = {
                     "roll_type": result["roll_type"],
@@ -174,14 +205,15 @@ def chat():
                     f"({check_result['mode']}): "
                     f"{roll_text} + {check_result['modifier']} = "
                     f"{check_result['total']} vs DC {check_result['dc']} "
-                    f"=> {'SUCCESS' if check_result['success'] else 'FAIL'}"
+                    f"=> {'SUCCESS' if check_result['success'] else 'FAIL'}",
+                    flush=True
                 )
 
                 narration_prompt = build_roll_result_prompt(check_result)
 
                 messages = build_messages(
                     user_input=narration_prompt,
-                    session_context=build_context_with_location(state),
+                    session_context=build_context_with_location_and_lore(state, user_input),
                     history=trim_history(state["history"], max_messages=6)
                 )
 
@@ -193,9 +225,9 @@ def chat():
                     num_predict=250
                 )
 
-                print("\n")
-                print(reply)
-                print()
+                print("\n", flush=True)
+                print(reply, flush=True)
+                print(flush=True)
 
                 state["history"].append({"role": "user", "content": user_input})
                 state["history"].append({"role": "assistant", "content": reply})
@@ -231,14 +263,14 @@ def chat():
                 except Exception as e:
                     debug_print("[DEBUG] Failed to parse pending check JSON")
                     debug_print(f"[DEBUG] Error: {e}")
-                    print("\n[System] The AI response could not be parsed. Please restate your response.")
+                    print("\n[System] The AI response could not be parsed. Please restate your response.", flush=True)
                     continue
 
                 debug_print(f"[DEBUG] Parsed pending result: {result}")
 
-                print("\nDM:")
-                print(result["display_text"])
-                print()
+                print("\nDM:", flush=True)
+                print(result["display_text"], flush=True)
+                print(flush=True)
 
                 if result["action_type"] == "modify_check":
                     state["pending_check"]["skill"] = result["skill"]
@@ -263,7 +295,7 @@ def chat():
 
                     narration_messages = build_messages(
                         user_input=narration_prompt,
-                        session_context=build_context_with_location(state),
+                        session_context=build_context_with_location_and_lore(state, revised_action),
                         history=trim_history(state["history"], max_messages=6)
                     )
 
@@ -275,8 +307,8 @@ def chat():
                         num_predict=500
                     )
 
-                    print(reply)
-                    print()
+                    print(reply, flush=True)
+                    print(flush=True)
 
                     state["history"].append({"role": "assistant", "content": reply})
 

@@ -7,3 +7,10 @@ OPENING_PROMPT = (
 )
 
 DEBUG_MODE = False
+
+CHROMA_DIR = "app/data/chroma_db"
+LOREBOOK_DIR = "app/data/lorebook"
+LORE_COLLECTION_NAME = "lorebook"
+EMBED_MODEL = "embeddinggemma"
+RAG_MAX_RESULTS = 3
+RAG_ENABLED = True
