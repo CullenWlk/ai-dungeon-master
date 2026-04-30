@@ -8,7 +8,7 @@ Read the player's action and decide whether:
 1. simple narration is enough
 2. a skill check is required
 
-If a skill check is required, return JSON only in this format:
+If a skill check is required, return JSON only in this format (if the player is attempting to lie or do anything that could be considered persuasion, they must make a check):
 
 {{
   "action_type": "request_check",
