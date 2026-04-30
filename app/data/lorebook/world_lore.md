@@ -97,3 +97,31 @@ The quality of an enchantment depends on both the strength of the soul used and 
 Because enchanting requires the use of souls, it is a heavily regulated and ethically debated practice in many parts of Coia. Some see it as a necessary advancement of magical technology, while others view it as a violation of the natural order.
 
 ---
+
+# The Eos Republic
+Type: faction
+Tags: faction, government, republic, eos
+
+The Eos Republic is the governing body of the island, structured around a senate composed primarily of human representatives. It oversees law, trade, and military organization across the island.
+
+While the republic presents itself as unified, each city holds its own economic importance, creating an internal balance of power between regions.
+
+---
+
+# Elven Origins of Eos
+Type: lore
+Tags: lore, elves, history, eos
+
+Before the arrival of humans, Eos was inhabited primarily by elves. They built stone structures deep within the forests, many of which still stand today as ruins.
+
+These ruins are characterized by geometric layouts, open-air designs, and alignment with natural features. Their original purpose is not fully understood, though they are believed to have held cultural, spiritual, or arcane significance.
+
+---
+
+# Human Settlement of Eos
+Type: lore
+Tags: lore, history, humans, eos
+
+Humans arrived on Eos generations ago, establishing coastal settlements that eventually grew into major cities. Over time, they formed a unified republic, consolidating control over trade and governance.
+
+While elves still inhabit the island, they are no longer the dominant political force, leading to subtle cultural and historical tensions.

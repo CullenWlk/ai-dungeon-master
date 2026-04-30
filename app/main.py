@@ -85,7 +85,7 @@ def update_story_summary(state, user_input, ai_reply):
     f"Latest DM response:\n{ai_reply}\n\n"
     "Return only the new complete story summary.\n"
     "The summary must cover the whole story so far, including the latest turn.\n"
-    "The summary must be under 10 sentences.\n"
+    "The summary must be under 7 sentences.\n"
     "Do not use bullet points.\n"
     "Do not include labels like 'Summary:' or explanations."
     )

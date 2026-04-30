@@ -1,543 +1,373 @@
-# Hardenforth Academy of the Arcane
+# Eos
+Type: place
+Tags: place, island, eos, region, material
+
+Eos is a large island republic located in the eastern seas, roughly the size of a major continental landmass but isolated by water on all sides. It is defined by a warm Mediterranean climate, with dry coastal regions, fertile plains, and cooler, forested highlands.
+
+A central mountain range known as the Montes Aurentis runs diagonally across the island, shaping both its geography and its development. Most of the population resides along the coasts, where trade, agriculture, and governance are concentrated, while the interior becomes increasingly wild and less settled.
+
+Eos is known for its structured cities, maritime culture, and long history, including remnants of an older elven civilization that predates the current republic.
+
+---
+
+# Montes Aurentis
+Type: place
+Tags: place, mountains, eos, geography
+
+The Montes Aurentis is the primary mountain range of Eos, running from the northwest to the southeast of the island. Composed of pale golden stone, the mountains are rich in mineral resources and form a natural barrier between regions.
+
+The lower slopes are covered in dense forest, while higher elevations become rocky and difficult to traverse. The range feeds several rivers that flow toward the coasts, making it a critical source of freshwater for the island.
+
+The region is sparsely populated, with only one major city—Vedinum—established near its edge.
+
+---
+
+# Silvae Umbra
+Type: place
+Tags: place, forest, dangerous, ruins, eos
+
+Silvae Umbra is a deep and ancient forest located along the foothills of the Montes Aurentis. It is the most dangerous natural region on the island and is known for its dense growth, limited visibility, and unstable terrain.
+
+The forest contains numerous overgrown ruins from the island’s original elven inhabitants. These structures are built of pale stone, often overgrown with roots and vines, and arranged in patterns that suggest ritual or civic use.
+
+There are several dangerous beasts within Silvae Umbra, and many who enter without preparation fail to return. It is considered both a site of historical importance and a place best approached with caution.
+
+---
+
+# River Aurelion
+Type: place
+Tags: place, river, eos, trade
+
+The Aurelion River originates in the Montes Aurentis and flows southward into the capital city of Hadria. It is the largest river on the island and serves as a major route for trade and transport.
+
+Its banks are developed near the capital, with docks, warehouses, and promenades, while upstream sections become more natural and less controlled.
+
+---
+
+# River Sevris
+Type: place
+Tags: place, river, eos
+
+The Sevris River flows westward from the mountains toward the coastal city of Sevona. It is smaller than the Aurelion but still supports local trade, fishing, and freshwater supply.
+
+---
+
+# River Bosarin
+Type: place
+Tags: place, river, eos, agriculture
+
+The Bosarin River runs through the southeastern plains, feeding the agricultural lands surrounding Bosona. It is essential for irrigation and supports the region’s farming economy.
+
+---
+
+# Hadria
+Type: place
+Tags: place, city, capital, eos, urban
+
+Hadria is the capital of the Eos Republic and the largest city on the island. It is located on the southern coast at the mouth of the Aurelion River, forming a natural harbor that supports extensive maritime trade.
+
+The city is built of pale stone and organized into structured districts centered around governance, commerce, and culture. It is home to the Senate and serves as the political and economic heart of the island.
+
+---
+
+# Sevona
+Type: place
+Tags: place, city, naval, eos, coastal
+
+Sevona is a western coastal city known for its naval strength and shipbuilding industry. It faces open sea routes and serves as the primary base for the republic’s fleet.
+
+The city is more practical in design than the capital, with large shipyards, docks, and defensive structures dominating its layout.
+
+---
+
+# Vedinum
+Type: place
+Tags: place, city, mountains, eos, frontier
+
+Vedinum is located near the northeastern edge of the Montes Aurentis and is the only major city positioned close to the mountains.
+
+It serves as a hub for mining, timber extraction, and exploration into the surrounding forests. Its proximity to Silvae Umbra makes it a place of both opportunity and danger.
+
+---
+
+# Bosona
+Type: place
+Tags: place, city, agriculture, eos, plains
+
+Bosona is a southeastern coastal city surrounded by fertile plains. It is the primary agricultural center of the island, producing grain, olives, wine, and other essential goods.
+
+The city is quieter and more open than the others, with estates, farms, and trade routes extending inland.
+
+---
+
+# Hadria Locations
 Type: location
-Tags: academy, magic, education, orms, arcane
+Tags: location, hadria, city, eos, capital
 
-The Hardenforth Academy of the Arcane is one of the oldest and most prestigious magical institutions on Terra, located on the outskirts of Rothbourne, the capital of the elven kingdom of Orms. Its sprawling campus consists of several acres of forest enclosed by a powerful arcane barrier that prevents unauthorized entry.
+The Gilded Amphora
+A large riverside tavern built of pale stone with dark wooden beams and a wide open front facing the docks. Inside, long tables fill the space, with a central bar backed by shelves of clay amphorae and glass bottles. Lantern light reflects off polished stone floors, and the air is filled with conversation and movement.
 
-Founded thousands of years ago by Thaddeus Alfin Hardenforth III, a legendary human wizard regarded as one of the greatest practitioners of the arcane to ever live, the academy stands as a symbol of magical mastery and scholarly excellence. It serves both as a private educational institution and the foremost center for arcane study in the known world.
+Bathhouse of Aurelion
+A sprawling marble complex built directly along the riverbank, featuring open-air pools, arched colonnades, and tiered bathing levels. Steam rises from heated pools, and sunlight reflects off white stone surfaces. Interior chambers are lined with smooth stone benches and carved basins, creating a calm but active environment.
 
-The academy accepts students from across Terra and from many races, though admission is often limited to those of noble birth or those who demonstrate exceptional natural aptitude for magic. Students typically enroll at the age of thirteen and remain until nineteen, living on campus as part of a structured boarding system.
+Forum Magnus
+A wide, open square paved with large stone tiles, surrounded by columned buildings and shaded walkways. Statues of historical figures line the edges, and raised platforms allow for speeches and announcements. The space is almost always active, with merchants, citizens, and officials moving through it.
 
-The grounds contain numerous academic buildings, lecture halls, and arcane facilities, as well as a preserved section of wild forest used for study and containment of magical creatures. These areas can be dangerous without proper supervision and are used to train students in practical applications of magic.
+Temple of Aurora
+A towering white-stone structure with tall columns and an open central chamber exposed to the sky. The interior is bright and reflective, with polished floors and a central altar where light gathers. The space is quiet and orderly, designed to feel pure and controlled.
 
-The academy also hosts a wide range of long-standing student organizations and scholarly groups, many of which have existed for centuries. Its influence extends beyond education, shaping the arcane practices and magical leadership of Terra across generations.
----
-# Orms
-Type: nation
-Tags: elves, kingdom, orms, monarchy, culture, climate
+The Senate Hall
+A massive rectangular building with high walls, wide steps, and a symmetrical facade. Inside, a central chamber contains tiered seating arranged around a speaking floor. The architecture emphasizes balance and authority, with clean lines and minimal decoration.
 
-Orms is one of the oldest and most influential elven kingdoms on the Twin Continents, known for its refined culture, strong traditions, and long-standing institutions of power. It has endured for millennia, shaping much of elven identity across Terra through its emphasis on elegance, intellect, and disciplined governance.
+The River Promenade
+A long stone walkway running along the Aurelion River, lined with low walls, benches, and small vendor stalls. Iron lantern posts are spaced evenly along the path, and steps descend to lower dock levels.
 
-The nation is ruled by Queen Lysandria Valemont, a monarch whose authority is reinforced by a structured noble class and deeply rooted political traditions. While the crown holds central power, noble houses and academic institutions maintain significant influence within the realm, creating a balance between royal command and aristocratic presence.
+The Marble Theater
+A semi-open structure with tiered stone seating facing a raised stage. The stage is backed by carved stone panels that reflect sound outward. The entire structure is built from pale marble, giving it a clean and refined appearance.
 
-Orms is defined not only by its culture but also by its temperate southern climate. The region experiences warm, dry summers and mild, wet winters, creating long growing seasons and fertile land. Rolling vineyards, olive groves, and cultivated farmland surround its cities, while gentle coastal winds and seasonal rains sustain both agriculture and daily life. This climate encourages outdoor social life, open markets, and a culture that values leisure, artistry, and refinement alongside discipline.
-
-The kingdom’s architecture, fashion, cuisine, and scholarly pursuits all reflect this environment, producing a society that is both structured and expressive, grounded in tradition yet enriched by beauty and comfort.
-
----
-
-# Rothbourne
-Type: city
-Tags: capital, orms, city, districts, river
-
-Rothbourne is the capital city of Orms and the seat of Queen Lysandria Valemont’s court. It is a meticulously planned city built around a major river that cuts directly through its center, serving as both a natural landmark and a vital artery of trade and transport.
-
-The river divides the city into distinct halves connected by a series of large stone bridges, each adorned with statues, lanterns, and decorative arches. The waterfront along its banks is developed with promenades, docks, and terraces, where merchants, nobles, and commoners alike gather.
-
-At the heart of the city lies the Royal District, positioned along the most prominent stretch of the river. The royal palace overlooks the water from elevated grounds, surrounded by government halls, noble estates, and expansive plazas. This district is defined by wide boulevards, pale stone architecture, ironwork balconies, and carefully arranged monuments.
-
-Surrounding the Royal District is the High Quarter, where scholars, wealthy citizens, and guild leaders reside. This area is dense with academies, salons, libraries, and refined townhouses. Streets are orderly and lined with trees, with frequent views of the river through open avenues and terraces.
-
-The Merchant District runs along the lower riverbanks and extends outward, forming the commercial core of Rothbourne. Markets, shops, cafés, and trade houses line the streets and docks, with constant movement of goods arriving by river. Buildings here are more functional but still maintain the aesthetic standards of Orms.
-
-Further outward lies the Common Ward, where the working population resides. Streets narrow and buildings become simpler, though still structured and maintained. This district supports the rest of the city through labor, craftsmanship, and service industries.
-
-Beyond the main districts are outer estates, gardens, and managed woodland that gradually transition into farmland. The Hardenforth Academy of the Arcane lies beyond these outer bounds, separated from the city by both distance and its arcane protections.
-
-Rothbourne’s atmosphere is one of elegance and control. The river serves as both a lifeline and a centerpiece, reflecting the city’s structured beauty and reinforcing its role as the cultural and political heart of Orms.
+The Merchant Exchange
+A large enclosed hall with high ceilings supported by stone columns. Interior stalls are organized in rows, each marked with trade symbols. The space is controlled and quieter than the open market, with guards posted at entrances.
 
 ---
 
-# Hardenforth Academy Campus
+# Sevona Locations
 Type: location
-Tags: academy, magic, campus, education, orms
+Tags: location, sevona, city, eos, coastal
 
-The Hardenforth Academy of the Arcane is a sprawling, walled campus located just beyond Rothbourne, consisting of structured academic grounds surrounded by a controlled arcane forest. The campus is divided into clearly defined districts, balancing disciplined education with controlled magical experimentation.
+The Broken Oar
+A low, wide tavern built from dark wood and reinforced with iron bands. The interior is dim, with uneven floors, heavy tables, and exposed beams. The walls are covered in nets, ropes, and maritime tools.
 
-A central axis runs from the main gate to the Grand Hall, with all major facilities branching from this core. The front of the campus is orderly and academic, while the outer edges become increasingly dangerous and experimental, culminating in the wild forest preserve. There is a bit of a road through the wooded areas before you reach the Grand Hall, obscuring the campus from the city outside the gates.
+Sevona Shipyards
+A massive stretch of docks and construction platforms extending into the water. Half-built ships sit on wooden supports, with cranes and scaffolding surrounding them. The ground is worn, with planks, rope, and tools scattered throughout.
 
----
+The Salt Market
+An open-air market set on packed stone near the docks, filled with stalls covered by canvas awnings. Fish hang from hooks, barrels are stacked high, and the ground is damp from constant water runoff.
 
-# Arcane Perimeter
-Type: structure
-Tags: barrier, security, magic, wards
+The Lighthouse of Sevona
+A tall cylindrical stone tower rising from a rocky outcrop near the coast. A flame or magical light burns at the top, visible from far out at sea. The base is narrow and reinforced against waves.
 
-The academy grounds are enclosed by a powerful arcane perimeter composed of reinforced stone and wrought metal embedded with runic wards.
+Barracks of the Fleet
+A solid, rectangular stone structure with minimal decoration. Inside are rows of bunks, weapon racks, and training areas. The space is functional and tightly organized.
 
-The barrier stands roughly three to four stories high, with smooth pale stone pillars spaced evenly along its length and ironwork lattice between them. Runes glow faintly at night, forming a constant low hum of contained magic.
+Stormwatch Tower
+A tall, narrow tower built on higher ground overlooking the sea. Its upper platform is open, allowing a clear view of incoming weather and ships.
 
-The main gate is a large double-arched structure with reinforced doors, guarded both physically and through magical verification.
+The Rope Quarter
+A dense cluster of buildings where ropes, sails, and rigging are produced. Long lines stretch between posts, holding drying materials. The streets are narrow and busy.
 
----
-
-# Grand Axis
-Type: structure
-Tags: pathway, campus, central, architecture
-
-The Grand Axis is the primary thoroughfare of the academy, extending from the main gate to the Grand Hall.
-
-It is a broad stone boulevard, wide enough for carriages to pass, lined with trimmed hedges, statues of former archmages, and tall lantern posts that emit steady magical light. The stonework is clean and uniform, with subtle inlaid runic patterns that help maintain lighting and minor weather resistance.
+Shrine of Gale
+A small stone shrine positioned near the cliffs, open on one side to the wind. Simple carvings and offerings sit within, and cloth streamers tied nearby flutter constantly in the breeze.
 
 ---
 
-# Grand Hall
-Type: structure
-Tags: administration, central, academic
-
-The Grand Hall is the central hub of the academy, both administratively and symbolically.
-
-Interior:
-- A massive vaulted entrance chamber with high ceilings and exposed stone arches
-- Polished stone floors with geometric patterns
-- A central reception space leading into branching corridors
-
-Key rooms include:
-- The main lecture auditorium, arranged in tiered seating
-- Faculty council chambers, enclosed and heavily warded
-- Administrative offices along upper balconies
-
-The interior is grand but restrained, emphasizing scale, symmetry, and authority.
-
----
-
-# Foundational Studies District
+# Vedinum Locations
 Type: location
-Tags: education, mundane, mathematics, history
+Tags: location, vedinum, city, eos, mountain
 
-The Foundational Studies District is dedicated to non-arcane education and early academic development.
+The Ironroot Tavern
+A thick-walled stone structure with a low ceiling and heavy wooden doors. Inside, the space is dim and warm, with a central hearth and reinforced furniture designed to withstand rough use.
 
-Buildings:
-- Rectangular stone structures arranged around small courtyards
-- Large windows for natural light
-- Minimal magical interference
+Warden Hall
+A fortified building with watchtowers at its corners and narrow windows. The interior is divided into map rooms, equipment storage, and briefing chambers, all designed for quick deployment.
 
-Interior:
-- Lecture rooms with tiered seating or long desk rows
-- Chalkboards, measuring instruments, maps, and shelves of texts
-- Wide hallways with student lockers and notice boards
+The Stone Exchange
+A large yard surrounded by stone buildings, filled with stacked blocks of rock and ore. Covered sections protect valuable materials, while open areas handle bulk trade.
 
-The environment is quiet, structured, and highly controlled, designed to build discipline before exposure to advanced magic.
+The Emberforge
+A wide forge built into the base of the mountain, with chimneys venting heat upward. Inside, glowing furnaces and anvils line the walls, and the air is thick with heat and smoke.
+
+The Outer Gate
+A reinforced checkpoint marking the edge of the city. Heavy wooden gates and stone walls form a barrier between Vedinum and the wilderness beyond.
+
+The Watch Ridge
+A raised stone platform built into a hillside, providing a clear view of the forest and mountain edge. Guard posts and signal fires are maintained here.
+
+The Ruin Path
+A narrow trail marked by stone posts, winding into the forest. The path is uneven and partially overgrown, with signs of previous expeditions.
+
+The Deep Lantern Post
+A small fortified outpost at the forest edge, with a central tower holding a constant light source. Supplies and equipment are stored here for expeditions.
 
 ---
 
-# Arcane Studies District
+# Bosona Locations
 Type: location
-Tags: magic, spellcasting, alchemy, arcane
+Tags: location, bosona, city, eos, agricultural
 
-The Arcane Studies District houses advanced magical education and experimentation.
+The Golden Vine
+A wide, open tavern with large windows and an outdoor seating area overlooking vineyards. The interior uses light wood and stone, creating a bright and relaxed atmosphere.
 
-Buildings:
-- Taller, more varied structures
-- Reinforced walls and rune-inscribed surfaces
-- Occasional visible magical effects
+Harvest Market
+A large open square with wooden stalls and cloth coverings. Crates of produce, barrels of wine, and baskets of goods are arranged in rows.
 
-Interior:
-- Casting chambers with marked circles and warding lines
-- Laboratories with reinforced tables and containment units
-- Narrower corridors with heavy doors to isolate magical activity
+Estate Hall
+A large villa-like structure with open courtyards, columns, and shaded walkways. Interior rooms are spacious and decorated with fine materials.
 
-The atmosphere is active and slightly unstable, reflecting the nature of advanced arcane work.
+The Olive Press District
+A cluster of low buildings with stone presses and storage areas. Large wheels and crushing mechanisms are visible, and the air carries the scent of oil.
 
----
+The Wine Houses
+Long, low buildings with thick stone walls used to store barrels. Interiors are cool and dim, with rows of stacked casks.
 
-# Applied Magic Wing
-Type: structure
-Tags: alchemy, enchantment, artificer, crafting
+The Southern Gate
+A broad entry point into the city, marked by stone arches and guarded checkpoints. Roads leading inward are wide and well-maintained.
 
-The Applied Magic Wing is dedicated to practical magical creation.
+The Grain Exchange
+A large covered structure with high ceilings and open floor space for storage and trade. Sacks of grain are stacked in organized sections.
 
-Interior Layout:
-- Large workshop floors divided into stations
-- Enchantment chambers with etched floors and mounted focusing frames
-- Alchemy labs with ventilation systems and reinforced storage
-
-Artificer Instruction:
-Artificers are trained to bind soul stones into objects to create enchantments. Soul stones contain captured or refined souls, which act as the power source for magical items. Without a soul, true enchantment cannot occur.
-
-Due to this, all artificer work is monitored closely, and access to higher-tier materials is restricted.
+Shrine of Sylvana
+A small, open-air shrine surrounded by trees and greenery. Stone markers and offerings are placed around a central altar, blending naturally into the environment.
 
 ---
 
-# Great Library
-Type: structure
-Tags: library, knowledge, study, records
-
-The Great Library is the primary academic library.
-
-Interior:
-- Multi-level structure with open balconies
-- Long reading tables and individual study desks
-- Organized shelving with labeled sections
-
-Lighting is soft and constant, maintained through low-level enchantment. Silence is enforced.
-
----
-
-# Restricted Archives
-Type: structure
-Tags: forbidden, arcane, restricted, knowledge
-
-The Restricted Archives are located behind secured sections of the library.
-
-Interior:
-- Narrow aisles and reinforced shelving
-- Locked cases and chained volumes
-- Heavy warding visible along walls and ceilings
-
-Access is strictly controlled, and the atmosphere is tense and quiet.
-
----
-
-# Lower Dormitories
-Type: structure
-Tags: housing, students, dorms, lowerclassmen
-
-The Lower Dormitories house students typically aged 13–15.
-
-Exterior:
-- Medium-sized stone buildings arranged in clusters near the Foundational District
-
-Interior Layout:
-- Shared sleeping rooms (4–6 students per room)
-- Simple beds, storage trunks, and shared desks
-- Central common rooms on each floor
-
-Hallways are wide and supervised, with clear lines of sight. The environment is structured and monitored, with limited privacy and minimal magical modification.
-
----
-
-# Upper Dormitories
-Type: structure
-Tags: housing, students, dorms, upperclassmen
-
-The Upper Dormitories house older students, typically aged 16–19.
-
-Exterior:
-- Larger and more refined buildings, closer to the Arcane District
-
-Interior Layout:
-- Smaller shared rooms or paired rooms
-- Individual desks, shelves, and personal study space
-- Larger, more open common areas
-
-Students are allowed limited personal magical modification of their space, resulting in subtle variations in lighting, arrangement, and decoration.
-
-The overall layout is less restrictive, reflecting increased trust and independence.
-
----
-
-# Faculty Residences
-Type: structure
-Tags: housing, faculty, private
-
-Faculty residences are small standalone homes located away from student dormitories.
-
-Interior:
-- Personalized layouts
-- Private laboratories or study rooms
-- Occasional magical anomalies depending on occupant
-
----
-
-# Dining Hall
-Type: structure
-Tags: food, social, gathering
-
-The Dining Hall is a large open structure with long tables arranged in rows.
-
-Interior:
-- High ceilings with exposed beams
-- Central serving area
-- Continuous noise and movement during meal hours
-
-It serves as a primary social space for the academy.
-
----
-
-# Dueling Grounds
+# Villages of Eos
 Type: location
-Tags: combat, training, magic
+Tags: location, villages, eos, travel, roads
 
-The Dueling Grounds consist of open arenas and enclosed chambers.
-
-Interior:
-- Marked dueling circles
-- Reinforced flooring
-- Visible warding barriers
+The island of Eos is connected by a network of maintained stone roads running between its four major cities. Along these routes lie small villages that support trade, travel, and agriculture. These settlements serve as rest stops, supply points, and local centers of activity, often shaped by the land and resources around them.
 
 ---
 
-# Spell Range
+# Valmere
 Type: location
-Tags: training, magic, practice
+Tags: location, village, eos, hadria, bosona, road
 
-The Spell Range is a large open field with spaced targets and containment zones.
-
-Used for large-scale or destructive spell practice.
-
----
-
-# Inner Forest
-Type: location
-Tags: forest, safe, creatures, study
-
-The Inner Forest contains maintained paths and controlled environments.
-
-Features:
-- Marked trails
-- Observation points
-- Contained creature habitats
-
----
-
-# Outer Forest
-Type: location
-Tags: forest, dangerous, wild, magic
-
-The Outer Forest is dense, unstructured, and dangerous.
-
-Features:
-- Irregular terrain
-- Magical anomalies
-- Predatory creatures
-
-Navigation requires guidance and permission.
-
----
-
-# The Academy Grounds
-Type: concept
-Tags: campus, structure, progression
-
-The academy is designed to reflect progression. Central areas are controlled and structured, while outer areas become increasingly unpredictable.
-
-Students physically move outward through the campus as they advance, mirroring their growth in knowledge and capability.
-
----
-
-# Rothbourne Infrastructure & Urban Structure
-Type: location
-Tags: rothbourne, city, infrastructure, districts, transport
-
-Rothbourne is a highly structured capital city built around a central river and organized into distinct districts connected by wide boulevards, bridges, and rail lines. Movement through the city is efficient and deliberate, with transportation and commerce centered around the river and rail systems.
-
-Upper-class students from the Hardenforth Academy often visit the city during permitted leave, typically traveling along established carriage routes or via supervised transit to key districts.
-
----
-
-# Rothbourne Central Station
-Type: structure
-Tags: train, transport, station, travel
-
-Rothbourne Central Station is the primary rail hub of the city, located within the Merchant District near the river.
-
-Exterior:
-- Large stone-and-iron terminal building
-- Arched glass canopy covering multiple platforms
-- Clock tower visible from surrounding districts
-
-Interior Layout:
-- Main concourse with ticket counters and schedule boards
-- Separate waiting halls divided by class and destination
-- Wide platforms accessible through gated archways
-
-The station connects Rothbourne to other major cities across the Twin Continents. It is a common destination for upper-class students traveling home or exploring beyond the city.
-
----
-
-# River Docks & Promenade
-Type: location
-Tags: river, docks, trade, leisure
-
-The riverbanks of Rothbourne are developed into a combination of trade docks and public promenades.
-
-Layout:
-- Lower docks for cargo and merchant vessels
-- Upper promenades with stone walkways, railings, and seating
-- Stairways connecting upper streets to river level
-
-This area is a popular destination for students, offering views of passing ships, street vendors, and a more relaxed atmosphere than the inner districts.
-
----
-
-# Merchant District
-Type: district
-Tags: commerce, shops, markets, city
-
-The Merchant District forms the commercial center of Rothbourne, concentrated around the river and rail station.
-
-Layout:
-- Dense grid of streets
-- Ground-level shops with upper residential floors
-- Open-air markets interspersed with permanent storefronts
-
-Interior Spaces:
-- Shops are narrow but deep, often cluttered with goods
-- Cafés and eateries spill partially into the streets
-- Warehouses near the docks are larger and more industrial
-
-Upper-class students frequent this district for shopping, dining, and social outings.
-
----
-
-# Grand Boulevards
-Type: structure
-Tags: roads, transport, city, planning
-
-The Grand Boulevards are wide, carefully maintained roads that connect major districts of the city.
-
-Features:
-- Stone paving suitable for carriages and early mechanized transport
-- Tree-lined edges with pedestrian walkways
-- Regular spacing of lamps and signage
-
-These boulevards provide the primary routes used by academy carriages bringing students into the city.
-
----
-
-# Bridge Network
-Type: structure
-Tags: bridges, river, connection, architecture
-
-A series of large stone bridges span the central river, connecting the city’s districts.
-
-Design:
-- Broad enough for both pedestrian and carriage traffic
-- Decorated with statues, iron railings, and lantern posts
-
-Each bridge acts as both a transit route and a social space, often populated with street performers and vendors.
-
----
-
-# High Quarter Social District
-Type: district
-Tags: nobles, culture, social, leisure
-
-The High Quarter contains refined social venues frequented by nobles and wealthy citizens.
-
-Locations:
-- Cafés and tea houses
-- Private salons and clubs
-- Performance halls and galleries
-
-Interior Layout:
-- Polished interiors with arranged seating and decorative elements
-- Quiet, controlled environments suited for conversation and networking
-
-Upper-class students with noble backgrounds often spend their time here during leave.
-
----
-
-# Public Gardens & Parks
-Type: location
-Tags: gardens, leisure, city, nature
-
-Rothbourne maintains several public gardens along its outer districts and riverbanks.
-
-Layout:
-- Open lawns, walking paths, and shaded seating areas
-- Maintained flowerbeds and decorative landscaping
-
-These areas provide a quieter alternative to the busy districts and are commonly visited by students seeking rest or study outside the academy.
-
----
-
-# Carriage Stations
-Type: structure
-Tags: transport, carriage, travel
-
-Carriage stations are distributed throughout the city, allowing for organized travel between districts.
-
-Layout:
-- Covered loading areas
-- Posted routes and pricing boards
-- Waiting benches
-
-Students often use these to travel between the station, markets, and social districts.
-
----
-
-# Academy Transit Route
-Type: concept
-Tags: academy, transport, rothbourne, travel
-
-A designated transit route connects the Hardenforth Academy to Rothbourne.
-
-Features:
-- Maintained road leading from the academy gate to the city outskirts
-- Regular carriage service for students and faculty
-- Supervised travel for younger students, with more freedom granted to upperclassmen
-
-This route ensures safe and consistent movement between the structured environment of the academy and the controlled but active environment of the city.
-
----
-
-# City Atmosphere
-Type: concept
-Tags: rothbourne, atmosphere, culture, structure
-
-Rothbourne maintains a balance between activity and order. Even in its busiest districts, movement is controlled and intentional.
-
-For academy students, the city represents a contrast to campus life: less restrictive, more social, but still structured enough to reflect the cultural values of Orms.
-
----
-
-# Headmaster’s Office
-Type: location
-Tags: academy, administration, office, headmaster
-
-Location: Upper Level, Grand Hall, Hardenforth Academy  
+Location:
+Situated along the main road between Hadria and Bosona, roughly halfway between the two.
 
 Description:
-The Headmaster’s Office is located on the upper levels of the Grand Hall, overlooking the central entrance chamber. It serves as the primary administrative office of the academy and is used for high-level decisions, private meetings, and disciplinary matters.
+Valmere is a farming village surrounded by rolling fields and olive groves. Low stone houses with red-tiled roofs cluster around a central well and small square. The road runs directly through the village, with carts and travelers passing daily.
 
-Layout:
-- Large rectangular chamber positioned along an upper balcony corridor  
-- A central desk facing inward toward the room rather than directly at the door  
-- Seating arranged for formal discussions  
-- Tall windows overlooking the Grand Axis and campus grounds  
-- A secondary side chamber used for private conversations or document storage  
-
-Interior Details:
-- Walls lined with organized records, arcane texts, and historical documents  
-- Clean, deliberate arrangement with minimal clutter  
-- Subtle arcane wards embedded into the structure for privacy and security  
-- Decorative elements are restrained, emphasizing authority and control  
-
-Atmosphere:
-The room carries a quiet weight, shaped by its position within the Grand Hall. Conversations here tend to feel more formal, and the space reinforces the authority of the Headmaster without needing overt displays of power.
-
-Use:
-The office is used for faculty coordination, disciplinary decisions, and important meetings with students. Being called here indicates that a matter has escalated beyond standard handling.
+What’s There:
+- A roadside tavern with outdoor seating
+- A small grain storage hall
+- Olive presses and drying racks
+- A modest shrine to Sylvana
 
 ---
 
-# Professor Turime’s Office
+# Theron’s Crossing
 Type: location
-Tags: academy, office, professor, student-relations
+Tags: location, village, eos, hadria, sevona, road, river
 
-Location: Academic Wing, Hardenforth Academy  
+Location:
+Located where a smaller branch of the Sevris River intersects the road between Hadria and Sevona.
 
 Description:
-Professor Alfin Turime’s office is located within the Academic Wing, positioned near the classrooms used for Interplanar Studies. Unlike many faculty offices, it is intentionally open and accessible, reflecting his role in student relations.
+A compact village built around a stone bridge crossing the river. Buildings are tightly packed, with wooden balconies extending over narrow streets. The sound of flowing water is constant.
 
-Layout:
-- Medium-sized rectangular room  
-- Desk positioned off-center rather than directly facing the door  
-- Two to three chairs placed informally for conversation rather than formal meetings  
-- Bookshelves lining one wall, filled with planar texts and personal notes  
-- A small side table often used for tea or shared materials  
+What’s There:
+- A bridge checkpoint with light guards
+- A riverside inn
+- Small fishing docks
+- A toll collection post
 
-Interior Details:
-- Papers and books are present but neatly arranged, giving the room a lived-in feel  
-- Maps and diagrams of the planes are pinned or placed along the walls  
-- Windows provide natural light, softening the space compared to more rigid offices  
-- Fewer visible wards, though subtle protections are still present  
+---
 
-Atmosphere:
-The room feels calm and approachable. It is quiet without being tense, and students often find it easier to speak freely here than in more formal spaces. The layout encourages conversation rather than interrogation.
+# Brakka’s Hold
+Type: location
+Tags: location, village, eos, vedinum, road, frontier
 
-Use:
-Professor Turime uses this space for both academic instruction outside the classroom and student mediation. It is where disputes are discussed, concerns are raised, and guidance is given. Many students come here voluntarily, not just when sent.
+Location:
+On the road leading from Hadria toward Vedinum, near the outer edge of the plains before the terrain begins to rise.
+
+Description:
+A rough, fortified settlement made of heavy timber and stone. The village sits slightly elevated, with a wooden palisade surrounding it. It serves as a last stop before travelers head toward the mountains.
+
+What’s There:
+- A fortified tavern with thick doors
+- Supply depot for caravans
+- Stable yard for pack animals
+- Small guard post
+
+---
+
+# Lysaen Fields
+Type: location
+Tags: location, village, eos, bosona, agriculture
+
+Location:
+South of Bosona, spread across open farmland.
+
+Description:
+More of a spread-out farming settlement than a tight village. Houses are separated by fields of grain and vineyards, connected by dirt paths rather than structured streets.
+
+What’s There:
+- Farmhouses and storage barns
+- Wine presses and fermentation sheds
+- A small communal gathering hall
+- Seasonal market gatherings
+
+---
+
+# Corvin’s Rest
+Type: location
+Tags: location, village, eos, sevona, vedinum, road
+
+Location:
+Along the road connecting Sevona to Vedinum, positioned near the edge of the forested foothills.
+
+Description:
+A quiet, isolated village surrounded by trees. Buildings are made of dark wood and stone, with roofs sloped to handle rain. The road narrows here, and fewer travelers pass through.
+
+What’s There:
+- A small inn used by hunters and travelers
+- Woodcutting operations
+- Storage sheds for timber
+- A watch post facing the forest
+
+---
+
+# Aurel’s Bend
+Type: location
+Tags: location, village, eos, hadria, river
+
+Location:
+Upstream along the Aurelion River, north of Hadria.
+
+Description:
+A river village built along a curved bend where the current slows. Houses are raised slightly above the waterline, with small docks extending into the river.
+
+What’s There:
+- Fishing platforms and nets
+- River transport boats
+- A riverside tavern
+- Storage for goods traveling downstream
+
+---
+
+# Drosin Hollow
+Type: location
+Tags: location, village, eos, vedinum, forest
+
+Location:
+Near the outer edge of Silvae Umbra, off the main road from Vedinum.
+
+Description:
+A small, tense settlement carved into a clearing near the forest. Buildings are tightly grouped, with little open space, as if the village is holding itself together against the surrounding wilderness.
+
+What’s There:
+- A reinforced central hall
+- Warden supply cache
+- Hunting equipment storage
+- Warning markers facing the forest
+
+---
+
+# Pelanor Gate
+Type: location
+Tags: location, village, eos, hadria, sevona, road
+
+Location:
+Closer to Hadria along the western road toward Sevona.
+
+Description:
+A checkpoint village built around a wide stone gate arch marking the transition between administrative regions. The area is more structured than most villages, with clean roads and visible oversight.
+
+What’s There:
+- Guard barracks
+- Toll station
+- Small market square
+- Carriage repair shop
 
 ---
