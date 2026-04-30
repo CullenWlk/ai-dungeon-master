@@ -25,6 +25,7 @@ If no roll is required, return JSON only in this format:
 {{
   "action_type": "narration",
   "location": "2-sentence description of player's current location. If they are in a named location, always include the name of the location, what town or city it is in, along with the description of where the player is within it."
+  "interaction_context": "2-sentence description of the previous things said in a conversation with a npc and their actions. Simply say 'none' here if there is no npc interaction happening currently."
 }}
 
 Rules:

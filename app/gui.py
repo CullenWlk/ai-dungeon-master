@@ -6,6 +6,9 @@ from pathlib import Path
 from PySide6.QtGui import QTextCursor, QPixmap
 from PySide6.QtCore import QProcess, Qt
 from PySide6.QtGui import QFontDatabase
+from PySide6.QtWidgets import QDialog, QFormLayout, QCheckBox
+from app.character.rules import SKILL_ABILITIES, calculate_skills
+from PySide6.QtWidgets import QMessageBox
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -35,6 +38,329 @@ def make_scaled_ui_image(source_path, output_path, scale):
     )
     scaled.save(str(output_path))
 
+class CharacterSetupDialog(QDialog):
+    def __init__(self, font_family, font_size):
+        super().__init__()
+
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
+
+        self.setWindowTitle("Character Setup")
+        self.resize(800, 800)
+        self.setMinimumSize(800, 600)
+
+        self.use_default = False
+
+        text_backer_slice = 7
+        button_backer_slice = 10
+
+        self.setStyleSheet(f"""
+        QDialog {{
+            background-color: rgb(255, 215, 168);
+        }}
+
+        QLabel {{
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+        }}
+
+        QCheckBox {{
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+        }}
+        """)
+
+        def style_line_edit(field):
+            field.setStyleSheet(f"""
+            QLineEdit {{
+                border-style: solid;
+                border-width: {text_backer_slice}px;
+                border-image: url("app/assets/UI_TravelBook_Frame04a_scaled.png") {text_backer_slice} {text_backer_slice} {text_backer_slice} {text_backer_slice} stretch stretch;
+                font-family: "{font_family}";
+                font-size: {font_size}px;
+                color: black;
+                padding: 4px;
+            }}
+            """)
+
+        self.name_input = QLineEdit()
+        self.name_input.setPlaceholderText("Your name (first and last)")
+
+        self.age_input = QLineEdit()
+        self.age_input.setPlaceholderText("Your age (in years)")
+
+        self.race_input = QLineEdit()
+        self.race_input.setPlaceholderText("Your race (human, elf, etc...)")
+
+        self.sex_input = QLineEdit()
+        self.sex_input.setPlaceholderText("Your sex (male, female)")
+
+        self.class_input = QLineEdit()
+        self.class_input.setPlaceholderText("Your class (fighter, wizard, etc...)")
+
+        self.description_input = QTextEdit()
+        self.description_input.setPlaceholderText("Your description (appearance, personality, etc...)")
+        self.description_input.setStyleSheet(f"""
+        QTextEdit {{
+            border-style: solid;
+            border-width: {text_backer_slice}px;
+            border-image: url("app/assets/UI_TravelBook_Frame04a_scaled.png") {text_backer_slice} {text_backer_slice} {text_backer_slice} {text_backer_slice} stretch stretch;
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+            padding: 6px;
+        }}
+        """)
+
+        self.level_input = QLineEdit()
+        self.level_input.setPlaceholderText("Level")
+
+        self.hp_input = QLineEdit()
+        self.hp_input.setPlaceholderText("Health")
+
+        self.ac_input = QLineEdit()
+        self.ac_input.setPlaceholderText("Armor Class")
+
+        self.prof_bonus_input = QLineEdit()
+        self.prof_bonus_input.setPlaceholderText("Proficiency Bonus")
+
+        self.str_input = QLineEdit()
+        self.str_input.setPlaceholderText("Strength")
+
+        self.dex_input = QLineEdit()
+        self.dex_input.setPlaceholderText("Dexterity")
+
+        self.con_input = QLineEdit()
+        self.con_input.setPlaceholderText("Constitution")
+
+        self.int_input = QLineEdit()
+        self.int_input.setPlaceholderText("Intelligence")
+
+        self.wis_input = QLineEdit()
+        self.wis_input.setPlaceholderText("Wisdom")
+
+        self.cha_input = QLineEdit()
+        self.cha_input.setPlaceholderText("Charisma")
+
+        for field in [
+            self.name_input, self.age_input, self.race_input, self.sex_input,
+            self.class_input, self.level_input, self.hp_input,
+            self.ac_input, self.prof_bonus_input,
+            self.str_input, self.dex_input, self.con_input,
+            self.int_input, self.wis_input, self.cha_input
+        ]:
+            style_line_edit(field)
+
+        self.skill_checks = {}
+
+        self.default_button = QPushButton("Use Default Character")
+        self.create_button = QPushButton("Create Custom Character")
+
+        button_style = f"""
+        QPushButton {{
+            border-style: solid;
+            border-width: {button_backer_slice}px;
+            border-image: url("app/assets/UI_TravelBook_Frame04a_scaled.png") {button_backer_slice} {button_backer_slice} {button_backer_slice} {button_backer_slice} stretch stretch;
+            font-family: "{font_family}";
+            font-size: {font_size}px;
+            color: black;
+            font-weight: bold;
+            padding: 2px;
+        }}
+        QPushButton:hover {{
+            background-color: rgba(250, 230, 190, 210);
+        }}
+        QPushButton:pressed {{
+            background-color: rgba(210, 185, 145, 220);
+        }}
+        """
+
+        self.default_button.setStyleSheet(button_style)
+        self.create_button.setStyleSheet(button_style)
+
+        form_widget = QWidget()
+        form_widget.setStyleSheet("background: transparent;")
+        form_layout = QFormLayout(form_widget)
+
+        form_layout.addRow("Name:", self.name_input)
+        form_layout.addRow("Age:", self.age_input)
+        form_layout.addRow("Race:", self.race_input)
+        form_layout.addRow("Sex:", self.sex_input)
+        form_layout.addRow("Class:", self.class_input)
+        form_layout.addRow("Description:", self.description_input)
+
+        form_layout.addRow("Level:", self.level_input)
+        form_layout.addRow("HP:", self.hp_input)
+        form_layout.addRow("Armor Class:", self.ac_input)
+        form_layout.addRow("Proficiency Bonus:", self.prof_bonus_input)
+
+        form_layout.addRow("Strength:", self.str_input)
+        form_layout.addRow("Dexterity:", self.dex_input)
+        form_layout.addRow("Constitution:", self.con_input)
+        form_layout.addRow("Intelligence:", self.int_input)
+        form_layout.addRow("Wisdom:", self.wis_input)
+        form_layout.addRow("Charisma:", self.cha_input)
+
+        form_layout.addRow(QLabel("Skill Proficiencies:"))
+
+        for skill in SKILL_ABILITIES:
+            checkbox = QCheckBox(skill.replace("_", " ").title())
+            self.skill_checks[skill] = checkbox
+            form_layout.addRow(checkbox)
+
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(form_widget)
+        scroll_area.setStyleSheet("""
+        QScrollArea {
+            background: transparent;
+            border: none;
+        }
+
+        QScrollArea > QWidget > QWidget {
+            background: transparent;
+        }
+
+        QScrollBar:vertical {
+            background: transparent;
+            width: 5px;
+        }
+
+        QScrollBar::handle:vertical {
+            background: rgb(229, 182, 127);
+            min-height: 20px;
+            border-radius: 2px;
+        }
+
+        QScrollBar::add-line:vertical,
+        QScrollBar::sub-line:vertical {
+            height: 0px;
+        }
+
+        QScrollBar::add-page:vertical,
+        QScrollBar::sub-page:vertical {
+            background: transparent;
+        }
+        """)
+
+        button_row = QHBoxLayout()
+        button_row.addWidget(self.default_button)
+        button_row.addWidget(self.create_button)
+
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(scroll_area)
+        main_layout.addLayout(button_row)
+
+        self.setLayout(main_layout)
+
+        self.default_button.clicked.connect(self.choose_default)
+        self.create_button.clicked.connect(self.validate_and_accept)
+
+    def choose_default(self):
+        self.use_default = True
+        self.accept()
+
+    def get_character_data(self):
+        if self.use_default:
+            return None
+
+        proficiency_bonus = int(self.prof_bonus_input.text())
+
+        abilities = {
+            "strength": int(self.str_input.text()),
+            "dexterity": int(self.dex_input.text()),
+            "constitution": int(self.con_input.text()),
+            "intelligence": int(self.int_input.text()),
+            "wisdom": int(self.wis_input.text()),
+            "charisma": int(self.cha_input.text()),
+        }
+
+        proficient_skills = [
+            skill for skill, checkbox in self.skill_checks.items()
+            if checkbox.isChecked()
+        ]
+
+        skills = calculate_skills(
+            abilities=abilities,
+            proficient_skills=proficient_skills,
+            proficiency_bonus=proficiency_bonus
+        )
+
+        return {
+            "name": self.name_input.text().strip(),
+            "age": self.age_input.text().strip(),
+            "race": self.race_input.text().strip(),
+            "sex": self.sex_input.text().strip(),
+            "class": self.class_input.text().strip(),
+            "description": self.description_input.toPlainText().strip(),
+            "level": int(self.level_input.text()),
+            "hp": {
+                "current": int(self.hp_input.text()),
+                "max": int(self.hp_input.text())
+            },
+            "armor_class": int(self.ac_input.text()),
+            "proficiency_bonus": proficiency_bonus,
+            "abilities": abilities,
+            "skills": skills,
+            "inventory": {}
+        }
+
+    def validate_and_accept(self):
+        required_line_edits = [
+            ("Name", self.name_input),
+            ("Age", self.age_input),
+            ("Race", self.race_input),
+            ("Sex", self.sex_input),
+            ("Class", self.class_input),
+            ("Level", self.level_input),
+            ("HP", self.hp_input),
+            ("Armor Class", self.ac_input),
+            ("Proficiency Bonus", self.prof_bonus_input),
+            ("Strength", self.str_input),
+            ("Dexterity", self.dex_input),
+            ("Constitution", self.con_input),
+            ("Intelligence", self.int_input),
+            ("Wisdom", self.wis_input),
+            ("Charisma", self.cha_input),
+        ]
+
+        for label, field in required_line_edits:
+            if not field.text().strip():
+                QMessageBox.warning(self, "Missing Field", f"{label} cannot be empty.")
+                return
+
+        if not self.description_input.toPlainText().strip():
+            QMessageBox.warning(self, "Missing Field", "Description cannot be empty.")
+            return
+
+        numeric_fields = [
+            ("Age", self.age_input),
+            ("Level", self.level_input),
+            ("HP", self.hp_input),
+            ("Armor Class", self.ac_input),
+            ("Proficiency Bonus", self.prof_bonus_input),
+            ("Strength", self.str_input),
+            ("Dexterity", self.dex_input),
+            ("Constitution", self.con_input),
+            ("Intelligence", self.int_input),
+            ("Wisdom", self.wis_input),
+            ("Charisma", self.cha_input),
+        ]
+
+        for label, field in numeric_fields:
+            try:
+                int(field.text().strip())
+            except ValueError:
+                QMessageBox.warning(self, "Invalid Field", f"{label} must be a whole number.")
+                return
+
+        self.accept()
+
+    def closeEvent(self, event):
+        self.reject()
+        event.accept()
+
 
 class ChatWindow(QMainWindow):
     def __init__(self):
@@ -47,6 +373,8 @@ class ChatWindow(QMainWindow):
         font_id = QFontDatabase.addApplicationFont("app/assets/fonts/alagard.ttf")
         font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
         font_size = 15
+
+        self.run_character_setup(font_family, font_size)
 
         fancy_frame_source = Path("app/assets/UI_TravelBook_Slot04a.png")
         fancy_frame_scaled = Path("app/assets/UI_TravelBook_Slot04a_scaled.png")
@@ -235,6 +563,75 @@ class ChatWindow(QMainWindow):
         self.roll_button.clicked.connect(self.send_roll)
 
         self.process.start()
+
+    def run_character_setup(self, font_family, font_size):
+        dialog = CharacterSetupDialog(font_family, font_size)
+        result = dialog.exec()
+
+        if not result:
+            QApplication.quit()
+            sys.exit(0)
+
+        current_sheet_path = Path("app/data/current_character_sheet.json")
+        current_context_path = Path("app/data/current_session_context.json")
+        default_sheet_path = Path("app/data/character_sheet.json")
+        default_context_path = Path("app/data/session_context.json")
+
+        character_data = dialog.get_character_data()
+
+        if character_data is None:
+            if current_sheet_path.exists():
+                current_sheet_path.unlink()
+
+            with open(default_sheet_path, "r", encoding="utf-8") as f:
+                default_char = json.load(f)
+
+            with open(default_context_path, "r", encoding="utf-8") as f:
+                context_data = json.load(f)
+
+            template = context_data.get("character", "")
+
+            character_text = (
+                template
+                .replace("{{name}}", default_char.get("name", "Unknown"))
+                .replace("{{age}}", str(default_char.get("age", "Unknown")))
+                .replace("{{race}}", default_char.get("race", "Unknown"))
+                .replace("{{sex}}", default_char.get("sex", "Unknown"))
+                .replace("{{class}}", default_char.get("class", "Unknown"))
+                .replace("{{description}}", default_char.get("description", "Unknown"))
+            )
+
+            context_data["character"] = character_text
+
+            with open(current_context_path, "w", encoding="utf-8") as f:
+                json.dump(context_data, f, indent=2)
+
+            return
+
+        with open(current_sheet_path, "w", encoding="utf-8") as file:
+            json.dump(character_data, file, indent=2)
+
+        default_context_path = Path("app/data/session_context.json")
+
+        with open(default_context_path, "r", encoding="utf-8") as file:
+            context_data = json.load(file)
+
+        character_template = context_data.get("character", "")
+
+        character_text = (
+            character_template
+            .replace("{{name}}", character_data["name"])
+            .replace("{{age}}", str(character_data["age"]))
+            .replace("{{race}}", character_data["race"])
+            .replace("{{sex}}", character_data["sex"])
+            .replace("{{class}}", character_data["class"])
+            .replace("{{description}}", character_data["description"])
+        )
+
+        context_data["character"] = character_text
+
+        with open(current_context_path, "w", encoding="utf-8") as file:
+            json.dump(context_data, file, indent=2)
 
     def make_value_field(self, value, font_family, font_size):
         field = QLineEdit(str(value))
@@ -551,6 +948,7 @@ class ChatWindow(QMainWindow):
         self.send_button.setEnabled(False)
         self.input_line.setEnabled(False)
         self.roll_button.setEnabled(False)
+        self.cleanup_session_files()
 
     def read_output(self):
         data = self.process.readAllStandardOutput().data().decode("utf-8", errors="replace")
@@ -571,6 +969,12 @@ class ChatWindow(QMainWindow):
         text = re.sub(
             r'"(.*?)"',
             r'<span style="color: #c33b3e;">"\1"</span>',
+            text
+        )
+
+        text = re.sub(
+            r'\[(.*?)\]',
+            r'<span style="color: #4aa3ff;">[\1]</span>',
             text
         )
 
@@ -597,9 +1001,27 @@ class ChatWindow(QMainWindow):
         self.roll_button.setVisible(False)
 
     def load_character_sheet(self):
-        path = Path("app/data/character_sheet.json")
+        session_path = Path("app/data/current_character_sheet.json")
+        default_path = Path("app/data/character_sheet.json")
+
+        path = session_path if session_path.exists() else default_path
+
         with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
+    
+    def cleanup_session_files(self):
+        temp_files = [
+            Path("app/data/current_character_sheet.json"),
+            Path("app/data/current_session_context.json"),
+        ]
+
+        for path in temp_files:
+            if path.exists():
+                path.unlink()
+
+    def closeEvent(self, event):
+        self.cleanup_session_files()
+        event.accept()
 
     def format_character_sheet(self, sheet):
         abilities = sheet.get("abilities", {})
@@ -647,6 +1069,14 @@ class ChatWindow(QMainWindow):
             lines.append(f"    - {item}")
 
         return "\n".join(lines)
+    
+    def closeEvent(self, event):
+        if self.process and self.process.state() != QProcess.ProcessState.NotRunning:
+            self.process.write(("quit\n").encode("utf-8"))
+            self.process.waitForFinished(2000)
+
+        self.cleanup_session_files()
+        event.accept()
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ OPENING_PROMPT = (
     "setting, and story premise provided. Establish the immediate atmosphere and situation. Keep it to one short paragraph, or two brief paragraphs at most."
 )
 
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 CHROMA_DIR = "app/data/chroma_db"
 LOREBOOK_DIR = "app/data/lorebook"

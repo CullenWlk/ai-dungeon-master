@@ -24,9 +24,21 @@ def debug_print(*args):
 
 def build_context_with_location(state):
     location = state.get("location", "")
+    interaction_context = state.get("interaction_context", "")
+    story_summary = state.get("story_summary", "")
+
+    context = state["session_context"]
+
     if location:
-        return f"{state['session_context']}\n\nCurrent Location:\n{location}"
-    return state["session_context"]
+        context += f"\n\nCurrent Location:\n{location}"
+
+    if interaction_context:
+        context += f"\n\nCurrent Interaction:\n{interaction_context}"
+
+    if story_summary:
+        context += f"\n\nStory Summary So Far:\n{story_summary}"
+
+    return context
 
 
 def build_context_with_location_and_lore(state, user_input=None):
@@ -39,11 +51,19 @@ def build_context_with_location_and_lore(state, user_input=None):
 
     try:
         lore_entries = retrieve_lore(query)
+
+        # DEBUG: show what was retrieved
+        debug_print(f"[DEBUG] RAG retrieved {len(lore_entries)} entries:")
+
+        for i, entry in enumerate(lore_entries):
+            preview = entry["text"].split("\n")[0][:60]  # first line preview
+            debug_print(f"[DEBUG] {i+1}. ({entry['source']}) {preview}...")
+
         lore_context = format_lore_context(lore_entries)
 
         if lore_context:
             context += f"\n\nRelevant Lore:\n{lore_context}"
-            debug_print("[DEBUG] RAG lore added to context")
+            debug_print("[DEBUG] RAG lore injected into context")
 
     except Exception as e:
         debug_print("[DEBUG] RAG retrieval failed")
@@ -51,6 +71,39 @@ def build_context_with_location_and_lore(state, user_input=None):
 
     return context
 
+def update_story_summary(state, user_input, ai_reply):
+    summary_prompt = (
+    "You are maintaining a compact running summary for an ongoing fantasy RPG session.\n\n"
+    "Rewrite the entire story summary from scratch using the existing summary and the latest turn.\n"
+    "Do NOT append new sentences onto the old summary.\n"
+    "Blend the newest important events into the older summary.\n"
+    "Compress older events into shorter wording as the story grows.\n"
+    "Preserve only important facts: major actions, goals, locations, NPCs, consequences, discoveries, conflicts, and unresolved threads.\n"
+    "Remove minor moment-to-moment description, repeated atmosphere, and details that no longer matter.\n\n"
+    f"Existing summary:\n{state.get('story_summary', 'No major events have happened yet.')}\n\n"
+    f"Latest player action:\n{user_input}\n\n"
+    f"Latest DM response:\n{ai_reply}\n\n"
+    "Return only the new complete story summary.\n"
+    "The summary must cover the whole story so far, including the latest turn.\n"
+    "The summary must be under 10 sentences.\n"
+    "Do not use bullet points.\n"
+    "Do not include labels like 'Summary:' or explanations."
+    )
+
+    messages = build_messages(
+        user_input=summary_prompt,
+        session_context=build_context_with_location(state),
+        history=[]
+    )
+
+    new_summary = generate_response(
+        messages,
+        temperature=0.2,
+        num_predict=500
+    )
+
+    state["story_summary"] = new_summary.strip()
+    debug_print(f"[DEBUG] Story summary updated: {state['story_summary']}")
 
 def chat():
     print("Your AI DM (type 'quit' to exit)\n", flush=True)
@@ -61,6 +114,7 @@ def chat():
 
     state = create_session_state(session_context)
     state["location"] = "The player's exact current location has not been established yet."
+    state["story_summary"] = "No major events have happened yet."
 
     debug_print("[DEBUG] Loaded session context")
     debug_print("[DEBUG] Loaded character sheet")
@@ -110,7 +164,7 @@ def chat():
             raw_reply = generate_response(
                 messages,
                 temperature=0.2,
-                num_predict=120
+                num_predict=250
             )
 
             debug_print("\n[DEBUG RAW MODEL OUTPUT]")
@@ -158,6 +212,7 @@ def chat():
 
                 state["history"].append({"role": "user", "content": user_input})
                 state["history"].append({"role": "assistant", "content": reply})
+                update_story_summary(state, user_input, reply)
 
             elif result["action_type"] == "request_check":
                 print("\n", flush=True)
@@ -231,6 +286,7 @@ def chat():
 
                 state["history"].append({"role": "user", "content": user_input})
                 state["history"].append({"role": "assistant", "content": reply})
+                update_story_summary(state, user_input, reply)
 
                 state["pending_check"] = None
                 debug_print("[DEBUG] pending_check cleared")
@@ -311,6 +367,7 @@ def chat():
                     print(flush=True)
 
                     state["history"].append({"role": "assistant", "content": reply})
+                    update_story_summary(state, user_input, reply)
 
                 state["history"].append({"role": "user", "content": user_input})
                 state["history"].append({"role": "assistant", "content": result["display_text"]})

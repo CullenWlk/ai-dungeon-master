@@ -481,3 +481,63 @@ Rothbourne maintains a balance between activity and order. Even in its busiest d
 For academy students, the city represents a contrast to campus life: less restrictive, more social, but still structured enough to reflect the cultural values of Orms.
 
 ---
+
+# Headmaster’s Office
+Type: location
+Tags: academy, administration, office, headmaster
+
+Location: Upper Level, Grand Hall, Hardenforth Academy  
+
+Description:
+The Headmaster’s Office is located on the upper levels of the Grand Hall, overlooking the central entrance chamber. It serves as the primary administrative office of the academy and is used for high-level decisions, private meetings, and disciplinary matters.
+
+Layout:
+- Large rectangular chamber positioned along an upper balcony corridor  
+- A central desk facing inward toward the room rather than directly at the door  
+- Seating arranged for formal discussions  
+- Tall windows overlooking the Grand Axis and campus grounds  
+- A secondary side chamber used for private conversations or document storage  
+
+Interior Details:
+- Walls lined with organized records, arcane texts, and historical documents  
+- Clean, deliberate arrangement with minimal clutter  
+- Subtle arcane wards embedded into the structure for privacy and security  
+- Decorative elements are restrained, emphasizing authority and control  
+
+Atmosphere:
+The room carries a quiet weight, shaped by its position within the Grand Hall. Conversations here tend to feel more formal, and the space reinforces the authority of the Headmaster without needing overt displays of power.
+
+Use:
+The office is used for faculty coordination, disciplinary decisions, and important meetings with students. Being called here indicates that a matter has escalated beyond standard handling.
+
+---
+
+# Professor Turime’s Office
+Type: location
+Tags: academy, office, professor, student-relations
+
+Location: Academic Wing, Hardenforth Academy  
+
+Description:
+Professor Alfin Turime’s office is located within the Academic Wing, positioned near the classrooms used for Interplanar Studies. Unlike many faculty offices, it is intentionally open and accessible, reflecting his role in student relations.
+
+Layout:
+- Medium-sized rectangular room  
+- Desk positioned off-center rather than directly facing the door  
+- Two to three chairs placed informally for conversation rather than formal meetings  
+- Bookshelves lining one wall, filled with planar texts and personal notes  
+- A small side table often used for tea or shared materials  
+
+Interior Details:
+- Papers and books are present but neatly arranged, giving the room a lived-in feel  
+- Maps and diagrams of the planes are pinned or placed along the walls  
+- Windows provide natural light, softening the space compared to more rigid offices  
+- Fewer visible wards, though subtle protections are still present  
+
+Atmosphere:
+The room feels calm and approachable. It is quiet without being tense, and students often find it easier to speak freely here than in more formal spaces. The layout encourages conversation rather than interrogation.
+
+Use:
+Professor Turime uses this space for both academic instruction outside the classroom and student mediation. It is where disputes are discussed, concerns are raised, and guidance is given. Many students come here voluntarily, not just when sent.
+
+---

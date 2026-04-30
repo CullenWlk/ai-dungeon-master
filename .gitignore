@@ -1,0 +1,4 @@
+app/data/current_character_sheet.json
+app/data/current_session_context.json
+__pycache__/
+*.pyc

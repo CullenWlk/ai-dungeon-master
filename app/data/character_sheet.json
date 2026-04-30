@@ -2,6 +2,10 @@
   "name": "Rico Santiago",
   "class": "initiate",
   "level": 2,
+  "race": "Orc",
+  "sex": "male",
+  "age": 18,
+  "description": "A young orc man with short dark hair and a muscular build.",
   "hp": {
     "current": 18,
     "max": 18
