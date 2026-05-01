@@ -953,6 +953,10 @@ class ChatWindow(QMainWindow):
     def read_output(self):
         data = self.process.readAllStandardOutput().data().decode("utf-8", errors="replace")
         if data:
+            if "[CHECK_CANCELLED]" in data:
+                self.roll_button.setVisible(False)
+                data = data.replace("[CHECK_CANCELLED]", "")
+            
             self.append_text(data)
 
             lowered = data.lower()

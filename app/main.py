@@ -1,3 +1,6 @@
+import json
+import tiktoken
+
 from app.context.session import load_session_context, format_session_context
 from app.character.sheet import load_character_sheet
 from app.state.session_state import create_session_state, trim_history
@@ -21,6 +24,26 @@ def debug_print(*args):
     if DEBUG_MODE:
         print(*args, flush=True)
 
+def count_tokens(text):
+    try:
+        enc = tiktoken.get_encoding("cl100k_base")
+        return len(enc.encode(text))
+    except Exception:
+        return len(text) // 4  # fallback rough estimate
+
+def format_session_memory(state):
+    memory = state.get("session_memory", {})
+
+    if not memory:
+        return ""
+
+    lines = ["Temporary Session Memory:"]
+
+    for key, value in memory.items():
+        lines.append(f"- {key}: {value}")
+
+    return "\n".join(lines)
+
 
 def build_context_with_location(state):
     location = state.get("location", "")
@@ -38,6 +61,10 @@ def build_context_with_location(state):
     if story_summary:
         context += f"\n\nStory Summary So Far:\n{story_summary}"
 
+    session_memory = format_session_memory(state)
+    if session_memory:
+        context += f"\n\n{session_memory}"
+
     return context
 
 
@@ -52,11 +79,10 @@ def build_context_with_location_and_lore(state, user_input=None):
     try:
         lore_entries = retrieve_lore(query)
 
-        # DEBUG: show what was retrieved
         debug_print(f"[DEBUG] RAG retrieved {len(lore_entries)} entries:")
 
         for i, entry in enumerate(lore_entries):
-            preview = entry["text"].split("\n")[0][:60]  # first line preview
+            preview = entry["text"].split("\n")[0][:60]
             debug_print(f"[DEBUG] {i+1}. ({entry['source']}) {preview}...")
 
         lore_context = format_lore_context(lore_entries)
@@ -71,23 +97,24 @@ def build_context_with_location_and_lore(state, user_input=None):
 
     return context
 
+
 def update_story_summary(state, user_input, ai_reply):
     summary_prompt = (
-    "You are maintaining a compact running summary for an ongoing fantasy RPG session.\n\n"
-    "Rewrite the entire story summary from scratch using the existing summary and the latest turn.\n"
-    "Do NOT append new sentences onto the old summary.\n"
-    "Blend the newest important events into the older summary.\n"
-    "Compress older events into shorter wording as the story grows.\n"
-    "Preserve only important facts: major actions, goals, locations, NPCs, consequences, discoveries, conflicts, and unresolved threads.\n"
-    "Remove minor moment-to-moment description, repeated atmosphere, and details that no longer matter.\n\n"
-    f"Existing summary:\n{state.get('story_summary', 'No major events have happened yet.')}\n\n"
-    f"Latest player action:\n{user_input}\n\n"
-    f"Latest DM response:\n{ai_reply}\n\n"
-    "Return only the new complete story summary.\n"
-    "The summary must cover the whole story so far, including the latest turn.\n"
-    "The summary must be under 7 sentences.\n"
-    "Do not use bullet points.\n"
-    "Do not include labels like 'Summary:' or explanations."
+        "You are maintaining a compact running summary for an ongoing fantasy RPG session.\n\n"
+        "Rewrite the entire story summary from scratch using the existing summary and the latest turn.\n"
+        "Do NOT append new sentences onto the old summary.\n"
+        "Blend the newest important events into the older summary.\n"
+        "Compress older events into shorter wording as the story grows.\n"
+        "Preserve only important facts: major actions, goals, locations, NPCs, consequences, discoveries, conflicts, and unresolved threads.\n"
+        "Remove minor moment-to-moment description, repeated atmosphere, and details that no longer matter.\n\n"
+        f"Existing summary:\n{state.get('story_summary', 'No major events have happened yet.')}\n\n"
+        f"Latest player action:\n{user_input}\n\n"
+        f"Latest DM response:\n{ai_reply}\n\n"
+        "Return only the new complete story summary.\n"
+        "The summary must cover the whole story so far, including the latest turn.\n"
+        "The summary must be under 7 sentences.\n"
+        "Do not use bullet points.\n"
+        "Do not include labels like 'Summary:' or explanations."
     )
 
     messages = build_messages(
@@ -105,6 +132,86 @@ def update_story_summary(state, user_input, ai_reply):
     state["story_summary"] = new_summary.strip()
     debug_print(f"[DEBUG] Story summary updated: {state['story_summary']}")
 
+
+def update_session_memory_from_turn(state, user_input, ai_reply):
+    memory_prompt = (
+        "You are updating temporary session memory for an ongoing fantasy RPG.\n\n"
+        "Session memory stores important changes connected to specific people, NPCs, locations, factions, objects, or lore entries.\n"
+        "This memory is temporary for the current session only.\n\n"
+        "For NPCs and named people, prioritize relationship changes with the player. Track whether the NPC is friendly, hostile, suspicious, loyal, afraid, attracted, romantically involved, married to the player, employed by the player, commanded by the player, allied, rival, enemy, mentor, student, boss, subordinate, or otherwise socially connected to the player.\n"
+        "Also track important changes to that NPC's circumstances, promises, injuries, secrets, debts, trust, grudges, obligations, or knowledge about the player.\n\n"
+        "For locations, factions, objects, and other lore entries, track only important changes caused by play, such as damage, ownership, reputation, access, danger, control, discovered secrets, or changed attitudes toward the player.\n\n"
+        "Do not record generic atmosphere, minor movement, repeated descriptions, or unimportant details.\n"
+        "Do not record static lore unless something changed during play.\n\n"
+        f"Current session memory:\n{json.dumps(state.get('session_memory', {}), indent=2)}\n\n"
+        f"Latest player action:\n{user_input}\n\n"
+        f"Latest DM response:\n{ai_reply}\n\n"
+        "Return JSON only in this format:\n"
+        "{\n"
+        '  "updates": [\n'
+        '    {\n'
+        '      "key": "Specific NPC, location, faction, object, or lore entry name",\n'
+        '      "value": "One concise sentence describing the full updated temporary memory for that key."\n'
+        "    }\n"
+        "  ]\n"
+        "}\n\n"
+        "Rules:\n"
+        "- If nothing important changed, return {\"updates\": []}.\n"
+        "- Do not make entries for unnamed or unimportant characters the player has only done something small like ask a question to."
+        "- Do not make entries for locations unless the player has changed something at that location. For example, do not make a entry about a tavern because the player sat at one of the back tables, he did not change anything about the tavern so you should not make an entry about it."
+        "- Use specific keys like an NPC name, tavern name, city district, faction, or item.\n"
+        "- For NPCs, include their current relationship to the player if relevant.\n"
+        "- If an entry already exists, rewrite the value as the full updated memory for that key, not just the new detail.\n"
+        "- Each value should be one concise sentence.\n"
+        "- Return valid JSON only.\n"
+        "- Do not wrap JSON in markdown."
+    )
+
+    messages = build_json_messages(
+        user_input=memory_prompt,
+        session_context=build_context_with_location(state),
+        history=[]
+    )
+
+    raw_reply = generate_response(
+        messages,
+        temperature=0.1,
+        num_predict=350
+    )
+
+    debug_print("\n[DEBUG SESSION MEMORY RAW OUTPUT]")
+    debug_print(raw_reply)
+    debug_print()
+
+    try:
+        result = json.loads(raw_reply)
+    except Exception as e:
+        debug_print("[DEBUG] Failed to parse session memory JSON")
+        debug_print(f"[DEBUG] Error: {e}")
+        return
+
+    updates = result.get("updates", [])
+
+    if not updates:
+        debug_print("[DEBUG] No session memory updates")
+        return
+
+    state.setdefault("session_memory", {})
+
+    for update in updates:
+        key = update.get("key", "").strip()
+        value = update.get("value", "").strip()
+
+        if key and value:
+            state["session_memory"][key] = value
+            debug_print(f"[DEBUG] Session memory updated: {key} -> {value}")
+
+
+def update_memory_systems(state, user_input, ai_reply):
+    update_story_summary(state, user_input, ai_reply)
+    update_session_memory_from_turn(state, user_input, ai_reply)
+
+
 def chat():
     print("Your AI DM (type 'quit' to exit)\n", flush=True)
 
@@ -115,6 +222,7 @@ def chat():
     state = create_session_state(session_context)
     state["location"] = "The player's exact current location has not been established yet."
     state["story_summary"] = "No major events have happened yet."
+    state["session_memory"] = {}
 
     debug_print("[DEBUG] Loaded session context")
     debug_print("[DEBUG] Loaded character sheet")
@@ -200,6 +308,19 @@ def chat():
 
                 debug_print("[DEBUG] Phase: narration follow-up")
 
+                if DEBUG_MODE:
+                    system_tokens = count_tokens(state["session_context"])
+                    summary_tokens = count_tokens(state.get("story_summary", ""))
+                    memory_tokens = count_tokens(format_session_memory(state))
+                    history_tokens = count_tokens(str(messages))
+    
+                    debug_print(f"\n[DEBUG] TOKENS:")
+                    debug_print(f"  session_context: {system_tokens}")
+                    debug_print(f"  story_summary: {summary_tokens}")
+                    debug_print(f"  session_memory: {memory_tokens}")
+                    debug_print(f"  history tokens: {history_tokens}")
+                    debug_print(f"  total_estimate: {system_tokens + summary_tokens + memory_tokens + history_tokens}")
+
                 reply = generate_response(
                     narration_messages,
                     temperature=0.5,
@@ -212,7 +333,7 @@ def chat():
 
                 state["history"].append({"role": "user", "content": user_input})
                 state["history"].append({"role": "assistant", "content": reply})
-                update_story_summary(state, user_input, reply)
+                update_memory_systems(state, user_input, reply)
 
             elif result["action_type"] == "request_check":
                 print("\n", flush=True)
@@ -286,7 +407,7 @@ def chat():
 
                 state["history"].append({"role": "user", "content": user_input})
                 state["history"].append({"role": "assistant", "content": reply})
-                update_story_summary(state, user_input, reply)
+                update_memory_systems(state, user_input, reply)
 
                 state["pending_check"] = None
                 debug_print("[DEBUG] pending_check cleared")
@@ -356,6 +477,20 @@ def chat():
                     )
 
                     debug_print("[DEBUG] Phase: cancelled check narration")
+                    print("[CHECK_CANCELLED]", flush=True)
+
+                    if DEBUG_MODE:
+                        system_tokens = count_tokens(state["session_context"])
+                        summary_tokens = count_tokens(state.get("story_summary", ""))
+                        memory_tokens = count_tokens(format_session_memory(state))
+                        history_tokens = count_tokens(str(messages))
+    
+                        debug_print(f"\n[DEBUG] TOKENS:")
+                        debug_print(f"  session_context: {system_tokens}")
+                        debug_print(f"  story_summary: {summary_tokens}")
+                        debug_print(f"  session_memory: {memory_tokens}")
+                        debug_print(f"  history tokens: {history_tokens}")
+                        debug_print(f"  total_estimate: {system_tokens + summary_tokens + memory_tokens + history_tokens}")
 
                     reply = generate_response(
                         narration_messages,
@@ -367,7 +502,7 @@ def chat():
                     print(flush=True)
 
                     state["history"].append({"role": "assistant", "content": reply})
-                    update_story_summary(state, user_input, reply)
+                    update_memory_systems(state, revised_action, reply)
 
                 state["history"].append({"role": "user", "content": user_input})
                 state["history"].append({"role": "assistant", "content": result["display_text"]})

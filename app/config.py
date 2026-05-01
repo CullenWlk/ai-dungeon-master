@@ -7,7 +7,6 @@ OPENING_PROMPT = (
 )
 
 DEBUG_MODE = True
-
 CHROMA_DIR = "app/data/chroma_db"
 LOREBOOK_DIR = "app/data/lorebook"
 LORE_COLLECTION_NAME = "lorebook"

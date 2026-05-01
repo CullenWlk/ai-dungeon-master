@@ -1,2 +1,4 @@
 ollama
 PySide6
+embeddinggemma
+tiktoken

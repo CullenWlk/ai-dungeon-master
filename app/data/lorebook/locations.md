@@ -8,6 +8,32 @@ A central mountain range known as the Montes Aurentis runs diagonally across the
 
 Eos is known for its structured cities, maritime culture, and long history, including remnants of an older elven civilization that predates the current republic.
 
+The cities of Eos are as follows:
+
+Hadria:
+
+Hadria is the capital of the Eos Republic and the largest city on the island. It is located on the southern coast at the mouth of the Aurelion River, forming a natural harbor that supports extensive maritime trade.
+
+The city is built of pale stone and organized into structured districts centered around governance, commerce, and culture. It is home to the Senate and serves as the political and economic heart of the island.
+
+Sevona:
+
+Sevona is a western coastal city known for its naval strength and shipbuilding industry. It faces open sea routes and serves as the primary base for the republic’s fleet.
+
+The city is more practical in design than the capital, with large shipyards, docks, and defensive structures dominating its layout.
+
+Vedinum:
+
+Vedinum is located near the northeastern edge of the Montes Aurentis and is the only major city positioned close to the mountains.
+
+It serves as a hub for mining, timber extraction, and exploration into the surrounding forests. Its proximity to Silvae Umbra makes it a place of both opportunity and danger.
+
+Bosona:
+
+Bosona is a southeastern coastal city surrounded by fertile plains. It is the primary agricultural center of the island, producing grain, olives, wine, and other essential goods.
+
+The city is quieter and more open than the others, with estates, farms, and trade routes extending inland.
+
 ---
 
 # Montes Aurentis
@@ -57,46 +83,6 @@ Type: place
 Tags: place, river, eos, agriculture
 
 The Bosarin River runs through the southeastern plains, feeding the agricultural lands surrounding Bosona. It is essential for irrigation and supports the region’s farming economy.
-
----
-
-# Hadria
-Type: place
-Tags: place, city, capital, eos, urban
-
-Hadria is the capital of the Eos Republic and the largest city on the island. It is located on the southern coast at the mouth of the Aurelion River, forming a natural harbor that supports extensive maritime trade.
-
-The city is built of pale stone and organized into structured districts centered around governance, commerce, and culture. It is home to the Senate and serves as the political and economic heart of the island.
-
----
-
-# Sevona
-Type: place
-Tags: place, city, naval, eos, coastal
-
-Sevona is a western coastal city known for its naval strength and shipbuilding industry. It faces open sea routes and serves as the primary base for the republic’s fleet.
-
-The city is more practical in design than the capital, with large shipyards, docks, and defensive structures dominating its layout.
-
----
-
-# Vedinum
-Type: place
-Tags: place, city, mountains, eos, frontier
-
-Vedinum is located near the northeastern edge of the Montes Aurentis and is the only major city positioned close to the mountains.
-
-It serves as a hub for mining, timber extraction, and exploration into the surrounding forests. Its proximity to Silvae Umbra makes it a place of both opportunity and danger.
-
----
-
-# Bosona
-Type: place
-Tags: place, city, agriculture, eos, plains
-
-Bosona is a southeastern coastal city surrounded by fertile plains. It is the primary agricultural center of the island, producing grain, olives, wine, and other essential goods.
-
-The city is quieter and more open than the others, with estates, farms, and trade routes extending inland.
 
 ---
 
