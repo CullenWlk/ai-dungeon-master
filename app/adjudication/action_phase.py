@@ -2,6 +2,7 @@ import json
 
 def build_action_prompt(player_text):
     return f"""
+/no_think
 You are acting as the DM adjudication layer for a fantasy RPG.
 
 Read the player's action and decide whether:

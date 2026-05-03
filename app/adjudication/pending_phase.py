@@ -15,6 +15,7 @@ def is_roll_command(text):
 
 def build_pending_prompt(player_text, pending_check):
     return f"""
+/no_think
 A check is currently pending.
 
 Pending check:

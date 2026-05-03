@@ -126,7 +126,8 @@ def update_story_summary(state, user_input, ai_reply):
     new_summary = generate_response(
         messages,
         temperature=0.2,
-        num_predict=500
+        num_predict=500,
+        think=False
     )
 
     state["story_summary"] = new_summary.strip()
@@ -176,7 +177,8 @@ def update_session_memory_from_turn(state, user_input, ai_reply):
     raw_reply = generate_response(
         messages,
         temperature=0.1,
-        num_predict=350
+        num_predict=350,
+        think=False
     )
 
     debug_print("\n[DEBUG SESSION MEMORY RAW OUTPUT]")
@@ -239,7 +241,8 @@ def chat():
     opening_reply = generate_response(
         opening_messages,
         temperature=0.5,
-        num_predict=500
+        r_pen=1.5,
+        num_predict=5000
     )
 
     print(opening_reply, flush=True)
@@ -272,7 +275,8 @@ def chat():
             raw_reply = generate_response(
                 messages,
                 temperature=0.2,
-                num_predict=250
+                num_predict=250,
+                think=False
             )
 
             debug_print("\n[DEBUG RAW MODEL OUTPUT]")
@@ -324,7 +328,8 @@ def chat():
                 reply = generate_response(
                     narration_messages,
                     temperature=0.5,
-                    num_predict=500
+                    r_pen=1.5,
+                    num_predict=5000
                 )
 
                 print("\n", flush=True)
@@ -398,7 +403,8 @@ def chat():
                 reply = generate_response(
                     messages,
                     temperature=0.5,
-                    num_predict=250
+                    r_pen=1.5,
+                    num_predict=5000
                 )
 
                 print("\n", flush=True)
@@ -428,7 +434,8 @@ def chat():
                 raw_reply = generate_response(
                     messages,
                     temperature=0.2,
-                    num_predict=800
+                    r_pen=1.5,
+                    num_predict=5000
                 )
 
                 debug_print("\n[DEBUG RAW MODEL OUTPUT]")
@@ -495,7 +502,8 @@ def chat():
                     reply = generate_response(
                         narration_messages,
                         temperature=0.5,
-                        num_predict=500
+                        r_pen=1.5,
+                        num_predict=5000
                     )
 
                     print(reply, flush=True)

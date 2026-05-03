@@ -2,3 +2,5 @@ ollama
 PySide6
 embeddinggemma
 tiktoken
+
+Model suggestions: deepseek-r1:8b due to thinking being a issue with other models.

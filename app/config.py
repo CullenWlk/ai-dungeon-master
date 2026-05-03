@@ -1,4 +1,4 @@
-MODEL_NAME = "qwen3.5:9b"
+MODEL_NAME = "deepseek-r1:8b"
 TEMPERATURE = 0.7
 
 OPENING_PROMPT = (
