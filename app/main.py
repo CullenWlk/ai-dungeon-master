@@ -327,7 +327,6 @@ def chat():
 
                 reply = generate_response(
                     narration_messages,
-                    temperature=0.5,
                     r_pen=1.5,
                     num_predict=5000
                 )
@@ -402,7 +401,6 @@ def chat():
 
                 reply = generate_response(
                     messages,
-                    temperature=0.5,
                     r_pen=1.5,
                     num_predict=5000
                 )
@@ -501,7 +499,6 @@ def chat():
 
                     reply = generate_response(
                         narration_messages,
-                        temperature=0.5,
                         r_pen=1.5,
                         num_predict=5000
                     )

@@ -8,7 +8,7 @@ def generate_response(messages, temperature=None, r_pen=1.0, num_predict=None, t
         "temperature": temp,
         "top_p": 0.95,
         "top_k": 20,
-        "repeat_penalty": 1.1,
+        "repeat_penalty": r_pen,
         "presence_penalty": 1.5,
     }
 
