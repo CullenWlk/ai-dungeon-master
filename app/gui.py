@@ -982,6 +982,18 @@ class ChatWindow(QMainWindow):
             text
         )
 
+        text = re.sub(
+            r'\*\*(.*?)\*\*',
+            r'<b>\1</b>',
+            text
+        )
+
+        text = re.sub(
+            r'\*(.*?)\*',
+            r'<i>\1</i>',
+            text
+        )
+
         text = text.replace("\n", "<br>")
         return text
 
