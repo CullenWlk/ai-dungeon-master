@@ -1,6 +1,7 @@
 ollama
 PySide6
+ChromaDB
 embeddinggemma
 tiktoken
 
-Model suggestions: deepseek-r1:8b due to thinking being a issue with other models.
+Model suggestion: deepseek-r1:8b due to thinking being a issue with most other models.

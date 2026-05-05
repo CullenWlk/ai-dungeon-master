@@ -1,10 +1,10 @@
-Check config files for debug mode bool and if you would like to edit the base temperature of the model.
+Check /config.py for debug mode bool.
 
-run 'python -m app.gui' to play AI
+**To Play:** run 'python -m app.gui' after installing requirements
 
-when the ai asks you to make a roll, simply type "roll" or "rolling" to have it make that roll, or instead ask the chat for a different kind of roll if you do not think it selected the right trait for that particular roll.
+**Rolling:** when the ai asks you to make a roll, simply type "roll" or "rolling" to have it make that roll, or instead ask the chat for a different kind of roll if you do not think it selected the right trait for that particular roll.
 
-to injest new lore: 'python -m app.rag.ingest'
+**To injest new lore:** 'python -m app.rag.ingest'
 
 structure of lorebook entries:
 
@@ -15,3 +15,5 @@ Tags: keyword1, keyword2, keyword3
 Short but clear description paragraph(s).
 
 ---
+
+**To edit the setting:** First clear and add in your own lorebook entries for the setting, then update /prompts.py with the introduction you would like to have to that setting. Then play.
